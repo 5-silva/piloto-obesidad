@@ -10,8 +10,6 @@ export function isDemo(): boolean {
 
 export function assertModeAllowed(): void {
   if (isDemo() && process.env.NODE_ENV === "production" && process.env.DEMO_MODE !== "true") {
-    throw new Error(
-      "Falta NEXT_PUBLIC_SUPABASE_URL. Configura Supabase o define DEMO_MODE=true para publicar la demo.",
-    );
+    throw new Error("Falta NEXT_PUBLIC_SUPABASE_URL. Configura Supabase o define DEMO_MODE=true para publicar la demo.");
   }
 }

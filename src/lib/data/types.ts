@@ -177,10 +177,7 @@ export interface Repo {
 
   snapshot(): Promise<Snapshot>;
   updateLead(id: string, patch: { status?: LeadStatus; notes?: string | null }): Promise<void>;
-  activatePatient(
-    leadId: string,
-    opts: { startDate: string; programFormat: ProgramFormat },
-  ): Promise<Patient>;
+  activatePatient(leadId: string, opts: { startDate: string; programFormat: ProgramFormat }): Promise<Patient>;
   updatePatient(
     id: string,
     patch: Partial<Pick<Patient, "status" | "deposit" | "programFormat" | "dropReason" | "startDate">>,

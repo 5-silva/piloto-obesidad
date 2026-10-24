@@ -63,9 +63,33 @@ describe("métricas del piloto", () => {
     patients: [patient("a", 30, { deposit: "pagado" }), patient("b", 3)],
     checkins: [checkin("a", 1), checkin("a", 2), checkin("a", 3), checkin("a", 4), checkin("a", 5), checkin("b", 1)],
     events: [
-      { createdAt: TODAY, name: "landing_view", sessionId: "s1", utmSource: "instagram", utmMedium: null, utmCampaign: null, refCode: null },
-      { createdAt: TODAY, name: "landing_view", sessionId: "s1", utmSource: "instagram", utmMedium: null, utmCampaign: null, refCode: null },
-      { createdAt: TODAY, name: "landing_view", sessionId: "s2", utmSource: null, utmMedium: null, utmCampaign: null, refCode: "dr-x" },
+      {
+        createdAt: TODAY,
+        name: "landing_view",
+        sessionId: "s1",
+        utmSource: "instagram",
+        utmMedium: null,
+        utmCampaign: null,
+        refCode: null,
+      },
+      {
+        createdAt: TODAY,
+        name: "landing_view",
+        sessionId: "s1",
+        utmSource: "instagram",
+        utmMedium: null,
+        utmCampaign: null,
+        refCode: null,
+      },
+      {
+        createdAt: TODAY,
+        name: "landing_view",
+        sessionId: "s2",
+        utmSource: null,
+        utmMedium: null,
+        utmCampaign: null,
+        refCode: "dr-x",
+      },
     ],
     costs: [{ id: "c1", month: "2026-10-01", channel: "Instagram", amountMxn: 1000, hours: 2, note: null }],
   };
@@ -117,7 +141,18 @@ describe("repositorio de demo", () => {
     const repo = memoryRepo(s, () => TODAY);
     const [p, other] = s.patients.filter((x) => x.status === "activo");
     p.userId = "yo";
-    const input = { weightKg: 79, waistCm: null, tookDose: "si" as const, nausea: 0, constipation: 0, waterLiters: 2, strengthSessions: 1, mood: 4, warningSigns: [], note: null };
+    const input = {
+      weightKg: 79,
+      waistCm: null,
+      tookDose: "si" as const,
+      nausea: 0,
+      constipation: 0,
+      waterLiters: 2,
+      strengthSessions: 1,
+      mood: 4,
+      warningSigns: [],
+      note: null,
+    };
     const saved = await repo.saveMyCheckin("yo", p.id, input);
     const again = await repo.saveMyCheckin("yo", p.id, { ...input, weightKg: 78.5 });
     expect(again.id).toBe(saved.id);

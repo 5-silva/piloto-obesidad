@@ -52,9 +52,7 @@ describe("tamizaje", () => {
   it("IMC 27–29.9 requiere una enfermedad asociada", () => {
     const w = 78; // IMC 28.7
     expect(evaluateScreening({ ...base, weightKg: w, comorbidities: [], riskAnswers: [] }).result).toBe("no_elegible");
-    expect(
-      evaluateScreening({ ...base, weightKg: w, comorbidities: ["hipertension"], riskAnswers: [] }).result,
-    ).toBe("elegible");
+    expect(evaluateScreening({ ...base, weightKg: w, comorbidities: ["hipertension"], riskAnswers: [] }).result).toBe("elegible");
   });
 
   it("menores de edad e IMC bajo no son aptos", () => {

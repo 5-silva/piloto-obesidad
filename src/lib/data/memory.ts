@@ -6,18 +6,7 @@ import { isFlagged, type CheckinInput } from "@/lib/checkin";
 import { addDays, daysBetween, programWeek, todayMx } from "@/lib/dates";
 import { channelOf } from "@/lib/metrics";
 import { evaluateScreening, type Comorbidity, type RiskAnswer } from "@/lib/screening";
-import type {
-  AppEvent,
-  ChannelCost,
-  Checkin,
-  Glp1Status,
-  Lead,
-  LeadStatus,
-  Patient,
-  Repo,
-  Screening,
-  Snapshot,
-} from "./types";
+import type { AppEvent, ChannelCost, Checkin, Glp1Status, Lead, LeadStatus, Patient, Repo, Screening, Snapshot } from "./types";
 
 export const DEMO_STAFF_USER = "00000000-0000-4000-8000-00000000d001";
 export const DEMO_PATIENT_USER = "00000000-0000-4000-8000-00000000d002";
@@ -41,8 +30,44 @@ function prng(seed: number) {
   };
 }
 
-const FIRST = ["Ana", "Mariana", "Lucía", "Fernanda", "Gabriela", "Claudia", "Patricia", "Sofía", "Rosa", "Verónica", "Daniela", "Alejandra", "Carlos", "Jorge", "Ricardo", "Miguel", "Luis", "Eduardo"];
-const LAST = ["Hernández", "García", "Martínez", "López", "González", "Rodríguez", "Pérez", "Sánchez", "Ramírez", "Torres", "Flores", "Rivera", "Gómez", "Díaz", "Cruz", "Morales"];
+const FIRST = [
+  "Ana",
+  "Mariana",
+  "Lucía",
+  "Fernanda",
+  "Gabriela",
+  "Claudia",
+  "Patricia",
+  "Sofía",
+  "Rosa",
+  "Verónica",
+  "Daniela",
+  "Alejandra",
+  "Carlos",
+  "Jorge",
+  "Ricardo",
+  "Miguel",
+  "Luis",
+  "Eduardo",
+];
+const LAST = [
+  "Hernández",
+  "García",
+  "Martínez",
+  "López",
+  "González",
+  "Rodríguez",
+  "Pérez",
+  "Sánchez",
+  "Ramírez",
+  "Torres",
+  "Flores",
+  "Rivera",
+  "Gómez",
+  "Díaz",
+  "Cruz",
+  "Morales",
+];
 const STATES = ["Ciudad de México", "Estado de México", "Jalisco", "Nuevo León", "Puebla", "Querétaro", "Guanajuato", "Yucatán"];
 const CHANNELS: { source: string | null; ref: string | null; weight: number }[] = [
   { source: "instagram", ref: null, weight: 0.38 },
@@ -61,7 +86,7 @@ function iso(date: string, rand: () => number): string {
 
 export function seed(today: string = todayMx()): Store {
   const rand = prng(20261024);
-  const pick = <T,>(xs: readonly T[]) => xs[Math.floor(rand() * xs.length)];
+  const pick = <T>(xs: readonly T[]) => xs[Math.floor(rand() * xs.length)];
   const pickChannel = () => {
     let r = rand();
     for (const c of CHANNELS) {
@@ -191,7 +216,7 @@ export function seed(today: string = todayMx()): Store {
       const isCurrent = w === weeksSoFar;
       if (isCurrent && (i === 0 || rand() < 0.45)) continue; // aún no registra esta semana
       if (!isCurrent && rand() < 0.1) continue; // semana perdida
-      weight = Math.round((weight * (1 - (0.004 + rand() * 0.009))) * 10) / 10;
+      weight = Math.round(weight * (1 - (0.004 + rand() * 0.009)) * 10) / 10;
       const nausea = w <= 4 ? Math.floor(rand() * 3) : Math.floor(rand() * 2);
       const mood = 2 + Math.floor(rand() * 4);
       const recentFlag = i === 4 && isCurrent;
@@ -242,7 +267,7 @@ function store(): Store {
 /** Repositorio en memoria. `data` permite inyectar datos en pruebas. */
 export function memoryRepo(data?: Store, today: () => string = todayMx): Repo {
   const db = () => data ?? store();
-  const clone = <T,>(x: T): T => structuredClone(x);
+  const clone = <T>(x: T): T => structuredClone(x);
 
   return {
     async createLead(input) {
@@ -353,7 +378,11 @@ export function memoryRepo(data?: Store, today: () => string = todayMx): Repo {
     async myCheckins(userId) {
       const p = db().patients.find((x) => x.userId === userId);
       if (!p) return [];
-      return clone(db().checkins.filter((c) => c.patientId === p.id).sort((a, b) => a.week - b.week));
+      return clone(
+        db()
+          .checkins.filter((c) => c.patientId === p.id)
+          .sort((a, b) => a.week - b.week),
+      );
     },
 
     async saveMyCheckin(userId, patientId, input) {

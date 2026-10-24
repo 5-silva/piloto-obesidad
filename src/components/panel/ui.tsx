@@ -1,22 +1,54 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
+import { buttonClass } from "@/components/ui/button";
+import { WhatsAppIcon } from "@/components/ui/icon";
+import { Badge } from "@/components/ui/surface";
 import type { LeadStatus, PatientStatus } from "@/lib/data/types";
 import { LEAD_STATUS_LABELS, PATIENT_STATUS_LABELS } from "@/lib/data/types";
 
-export function PageHeader({ title, children }: { title: string; children?: React.ReactNode }) {
+export { EmptyState } from "@/components/ui/surface";
+
+export function PageHeader({
+  title,
+  children,
+  back,
+}: {
+  title: string;
+  children?: ReactNode;
+  back?: { href: string; label: string };
+}) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-      <h1 className="text-2xl font-bold">{title}</h1>
-      {children}
+    <div className="mb-8 grid gap-3">
+      {back && (
+        <Link href={back.href} className="w-fit text-sm font-semibold text-tinta-2 hover:text-tinta">
+          ‹ {back.label}
+        </Link>
+      )}
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <h1 className="text-2xl sm:text-[2.5rem] sm:leading-tight">{title}</h1>
+        {children}
+      </div>
     </div>
   );
 }
 
-export function Card({ title, children, className = "", action }: { title?: string; children: React.ReactNode; className?: string; action?: React.ReactNode }) {
+/** Tarjeta del panel: superficie blanca sobre el fondo gris del panel. */
+export function Card({
+  title,
+  children,
+  className = "",
+  action,
+}: {
+  title?: ReactNode;
+  children: ReactNode;
+  className?: string;
+  action?: ReactNode;
+}) {
   return (
-    <section className={`rounded-xl border border-linea bg-blanco p-4 sm:p-5 ${className}`}>
+    <section className={`rounded-[var(--radius-bloque)] bg-blanco p-5 ring-1 ring-linea sm:p-6 ${className}`}>
       {(title || action) && (
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-          {title && <h2 className="text-lg font-bold">{title}</h2>}
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
+          {title && <h2 className="text-lg">{title}</h2>}
           {action}
         </div>
       )}
@@ -25,63 +57,57 @@ export function Card({ title, children, className = "", action }: { title?: stri
   );
 }
 
-type Tone = "neutral" | "good" | "warn" | "bad" | "strong";
-
-const TONES: Record<Tone, string> = {
-  neutral: "bg-papel text-anil-suave ring-1 ring-linea",
-  good: "bg-hoja text-jade-oscuro",
-  warn: "bg-aviso-fondo text-aviso",
-  bad: "bg-alerta-fondo text-alerta",
-  strong: "bg-jade text-blanco",
-};
-
-export function Pill({ tone = "neutral", children }: { tone?: Tone; children: React.ReactNode }) {
+/** Contenedor de tabla con desplazamiento horizontal accesible con teclado. */
+export function TableScroll({ label, children, minWidth = "44rem" }: { label: string; children: ReactNode; minWidth?: string }) {
   return (
-    <span className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-sm font-bold ${TONES[tone]}`}>
-      {children}
-    </span>
+    <div role="region" aria-label={label} tabIndex={0} className="-mx-5 overflow-x-auto px-5 sm:-mx-6 sm:px-6">
+      <div style={{ minWidth }}>{children}</div>
+    </div>
   );
 }
 
-const LEAD_TONE: Record<LeadStatus, Tone> = {
-  nuevo: "neutral",
+export const th = "py-2.5 pr-4 text-left text-xs font-semibold text-piedra";
+export const td = "py-3 pr-4 align-top";
+
+const LEAD_TONE: Record<LeadStatus, Parameters<typeof Badge>[0]["tone"]> = {
+  nuevo: "rosa",
   contactado: "neutral",
   tamizaje_enviado: "neutral",
-  elegible: "good",
-  revisar: "warn",
+  elegible: "jade",
+  revisar: "aviso",
   no_elegible: "neutral",
-  agendado: "good",
-  activo: "strong",
+  agendado: "jade",
+  activo: "tinta",
   descartado: "neutral",
 };
 
 export function LeadStatusPill({ status }: { status: LeadStatus }) {
-  return <Pill tone={LEAD_TONE[status]}>{LEAD_STATUS_LABELS[status]}</Pill>;
+  return <Badge tone={LEAD_TONE[status]}>{LEAD_STATUS_LABELS[status]}</Badge>;
 }
 
-const PATIENT_TONE: Record<PatientStatus, Tone> = { activo: "good", pausa: "warn", baja: "neutral", completado: "strong" };
+const PATIENT_TONE: Record<PatientStatus, Parameters<typeof Badge>[0]["tone"]> = {
+  activo: "jade",
+  pausa: "aviso",
+  baja: "neutral",
+  completado: "tinta",
+};
 
 export function PatientStatusPill({ status }: { status: PatientStatus }) {
-  return <Pill tone={PATIENT_TONE[status]}>{PATIENT_STATUS_LABELS[status]}</Pill>;
+  return <Badge tone={PATIENT_TONE[status]}>{PATIENT_STATUS_LABELS[status]}</Badge>;
 }
 
-export function WaButton({ href, children = "WhatsApp" }: { href: string; children?: React.ReactNode }) {
+/** Abre WhatsApp con el mensaje ya escrito. */
+export function WaButton({ href, children = "WhatsApp" }: { href: string; children?: ReactNode }) {
   return (
-    <a href={href} target="_blank" rel="noopener" className="btn btn-secondary btn-sm">
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 text-jade">
-        <path
-          fill="currentColor"
-          d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"
-        />
-      </svg>
+    <a href={href} target="_blank" rel="noopener" className={buttonClass({ variant: "secondary", size: "sm" })}>
+      <WhatsAppIcon className="h-4 w-4 text-jade" />
       {children}
     </a>
   );
 }
 
-export function EmptyState({ children }: { children: React.ReactNode }) {
-  return <p className="rounded-lg bg-papel p-4 text-piedra">{children}</p>;
-}
+/** Botón pequeño para acciones de formulario dentro de listas. */
+export const smallButton = buttonClass({ variant: "secondary", size: "sm" });
 
 export function pct(rate: number | null): string {
   return rate === null ? "—" : `${Math.round(rate * 100)}%`;
@@ -92,10 +118,20 @@ export function mxn(value: number | null): string {
   return new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(value);
 }
 
-export function TextLink({ href, children }: { href: string; children: React.ReactNode }) {
+export function TextLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="font-bold text-anil underline decoration-linea underline-offset-4 hover:decoration-anil">
+    <Link href={href} className="font-semibold text-tinta underline decoration-linea-2 underline-offset-4 hover:decoration-tinta">
       {children}
     </Link>
+  );
+}
+
+/** Fila de lista del panel: contenido a la izquierda, acciones a la derecha. */
+export function ListRow({ children, actions }: { children: ReactNode; actions?: ReactNode }) {
+  return (
+    <li className="grid gap-3 py-4 first:pt-0 last:pb-0 sm:grid-cols-[1fr_auto] sm:items-center">
+      <div className="min-w-0">{children}</div>
+      {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
+    </li>
   );
 }

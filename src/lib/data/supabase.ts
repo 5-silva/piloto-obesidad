@@ -289,10 +289,12 @@ export function supabaseRepo(): Repo {
     async upsertCost(cost) {
       const db = await createUserClient();
       must(
-        await db.from("channel_costs").upsert(
-          { month: cost.month, channel: cost.channel, amount_mxn: cost.amountMxn, hours: cost.hours, note: cost.note },
-          { onConflict: "month,channel" },
-        ),
+        await db
+          .from("channel_costs")
+          .upsert(
+            { month: cost.month, channel: cost.channel, amount_mxn: cost.amountMxn, hours: cost.hours, note: cost.note },
+            { onConflict: "month,channel" },
+          ),
         "channel_costs",
       );
     },
@@ -303,7 +305,11 @@ export function supabaseRepo(): Repo {
       const ids = patients.map((p) => String(p.id));
       if (ids.length === 0) return { patients: [], checkins: [] };
       const checkins = must(
-        await admin.from("checkins").select("*").in("patient_id", ids).gte("created_at", new Date(Date.now() - 15 * 86_400_000).toISOString()),
+        await admin
+          .from("checkins")
+          .select("*")
+          .in("patient_id", ids)
+          .gte("created_at", new Date(Date.now() - 15 * 86_400_000).toISOString()),
         "checkins",
       ) as Row[];
       return { patients: patients.map(toPatient), checkins: checkins.map(toCheckin) };

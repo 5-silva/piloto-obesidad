@@ -36,7 +36,11 @@ export async function setLeadStatus(formData: FormData) {
 export async function saveLeadNotes(formData: FormData) {
   await requireStaff();
   const id = uuidSchema.parse(formData.get("id"));
-  const notes = z.string().max(2000).parse(String(formData.get("notes") ?? "")).trim();
+  const notes = z
+    .string()
+    .max(2000)
+    .parse(String(formData.get("notes") ?? ""))
+    .trim();
   await getRepo().updateLead(id, { notes: notes || null });
   refresh();
 }

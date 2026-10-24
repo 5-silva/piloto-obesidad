@@ -7,6 +7,8 @@ import { isDemo } from "@/lib/env";
 import { createUserClient } from "@/lib/supabase/server";
 import { emailSchema, otpSchema } from "@/lib/validation";
 
+const DEMO_CODE = "123456";
+
 export type LoginState =
   | { status: "idle" }
   | { status: "code_sent"; email: string; message?: string }
@@ -15,6 +17,7 @@ export type LoginState =
 export async function requestCode(_prev: LoginState, formData: FormData): Promise<LoginState> {
   const email = emailSchema.safeParse(formData.get("email"));
   if (!email.success) return { status: "error", step: "email", message: "Revisa tu correo." };
+  if (isDemo()) return { status: "code_sent", email: email.data };
   const db = await createUserClient();
   const { error } = await db.auth.signInWithOtp({ email: email.data, options: { shouldCreateUser: false } });
   if (error && error.status === 429) {
@@ -29,6 +32,14 @@ export async function verifyCode(_prev: LoginState, formData: FormData): Promise
   const token = otpSchema.safeParse(String(formData.get("token") ?? "").replace(/\s/g, ""));
   if (!email.success) return { status: "error", step: "email", message: "Revisa tu correo." };
   if (!token.success) return { status: "error", step: "code", email: email.data, message: "El código tiene 6 dígitos." };
+  if (isDemo()) {
+    // En la demo el código siempre es 123456; un correo que empieza con «equipo» entra al panel.
+    if (token.data !== DEMO_CODE)
+      return { status: "error", step: "code", email: email.data, message: "En la demo el código es 123456." };
+    const role = email.data.startsWith("equipo") ? "staff" : "patient";
+    (await cookies()).set(DEMO_COOKIE, role, { httpOnly: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 8 });
+    redirect(role === "staff" ? "/panel" : "/portal");
+  }
   const db = await createUserClient();
   const { error } = await db.auth.verifyOtp({ email: email.data, token: token.data, type: "email" });
   if (error) {

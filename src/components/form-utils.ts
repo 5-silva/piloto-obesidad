@@ -26,3 +26,18 @@ export function useFocusFirstError(state: { status: string }) {
   }, [state]);
   return ref;
 }
+
+/**
+ * Para confirmaciones que reemplazan un formulario: al aparecer, se desplaza a la
+ * vista y recibe el foco, así nadie se queda viendo una página que «no cambió».
+ */
+export function useReveal<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.scrollIntoView({ block: "center", behavior: "smooth" });
+    el.focus({ preventScroll: true });
+  }, []);
+  return ref;
+}

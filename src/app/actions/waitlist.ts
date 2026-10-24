@@ -13,9 +13,7 @@ export type WaitlistState =
 
 export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Promise<WaitlistState> {
   const parsed = parseLeadForm(formData);
-  const values = Object.fromEntries(
-    ["name", "email", "phone", "state", "glp1"].map((k) => [k, String(formData.get(k) ?? "")]),
-  );
+  const values = Object.fromEntries(["name", "email", "phone", "state", "glp1"].map((k) => [k, String(formData.get(k) ?? "")]));
   if (!parsed.ok) {
     // Un bot que llenó el campo oculto ve "éxito" y no se guarda nada.
     if (parsed.errors.website) return { status: "ok", firstName: "", screeningPath: "/" };

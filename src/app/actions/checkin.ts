@@ -26,7 +26,8 @@ export async function saveCheckin(_prev: CheckinState, formData: FormData): Prom
   try {
     const saved = await repo.saveMyCheckin(viewer.userId, patient.id, parsed.data);
     const alertTo = process.env.STAFF_ALERT_EMAIL;
-    if (saved.flagged && alertTo) after(() => sendMail({ to: alertTo, ...mails.staffFlagAlert(saved.week) }).then(() => undefined));
+    if (saved.flagged && alertTo)
+      after(() => sendMail({ to: alertTo, ...mails.staffFlagAlert(saved.week) }).then(() => undefined));
     revalidatePath("/portal");
     return { status: "ok", week: saved.week, guidance: guidanceFor(parsed.data) };
   } catch (err) {

@@ -62,6 +62,12 @@ function optional(fd: FormData, key: string): string | undefined {
   return v === "" ? undefined : v;
 }
 
+/** Número escrito por una persona: acepta coma decimal («74,5»). */
+function dec(fd: FormData, key: string): string | undefined {
+  const v = str(fd, key).replace(",", ".");
+  return v === "" ? undefined : v;
+}
+
 function many(fd: FormData, key: string): string[] {
   return fd.getAll(key).filter((v): v is string => typeof v === "string");
 }
@@ -77,7 +83,10 @@ const attributionText = z
 
 const leadSchema = z.object({
   name: z.string().min(2, "Escribe tu nombre").max(80, "Usa máximo 80 caracteres"),
-  email: z.email("Revisa tu correo").max(120).transform((v) => v.toLowerCase()),
+  email: z
+    .email("Revisa tu correo")
+    .max(120)
+    .transform((v) => v.toLowerCase()),
   phone: z
     .string()
     .transform((v) => normalizeMxPhone(v))
@@ -139,9 +148,9 @@ export function parseScreeningForm(fd: FormData): Parsed<ScreeningForm> {
   const result = screeningSchema.safeParse({
     age: str(fd, "age") || undefined,
     sex: sex === "" ? null : sex,
-    heightCm: str(fd, "height_cm") || undefined,
-    weightKg: str(fd, "weight_kg") || undefined,
-    waistCm: optional(fd, "waist_cm") ?? null,
+    heightCm: dec(fd, "height_cm"),
+    weightKg: dec(fd, "weight_kg"),
+    waistCm: dec(fd, "waist_cm") ?? null,
     comorbidities: many(fd, "comorbidities"),
     riskAnswers: many(fd, "risk"),
     medications: optional(fd, "medications") ?? null,
@@ -175,12 +184,12 @@ const checkinSchema = z.object({
 
 export function parseCheckinForm(fd: FormData): Parsed<CheckinInput> {
   const result = checkinSchema.safeParse({
-    weightKg: optional(fd, "weight_kg") ?? null,
-    waistCm: optional(fd, "waist_cm") ?? null,
+    weightKg: dec(fd, "weight_kg") ?? null,
+    waistCm: dec(fd, "waist_cm") ?? null,
     tookDose: optional(fd, "took_dose") ?? null,
     nausea: optional(fd, "nausea") ?? null,
     constipation: optional(fd, "constipation") ?? null,
-    waterLiters: optional(fd, "water_liters") ?? null,
+    waterLiters: dec(fd, "water_liters") ?? null,
     strengthSessions: optional(fd, "strength_sessions") ?? null,
     mood: optional(fd, "mood") ?? null,
     warningSigns: many(fd, "warning"),

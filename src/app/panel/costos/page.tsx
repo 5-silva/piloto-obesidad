@@ -1,5 +1,5 @@
 import { CostForm } from "@/components/panel/cost-form";
-import { Card, EmptyState, PageHeader, mxn } from "@/components/panel/ui";
+import { Card, EmptyState, PageHeader, mxn, TableScroll } from "@/components/panel/ui";
 import { getSnapshot } from "@/lib/data/snapshot";
 import { todayMx } from "@/lib/dates";
 import { channelLabel } from "@/lib/metrics";
@@ -24,10 +24,10 @@ export default async function CostsPage() {
       </Card>
       <Card title="Registro" className="mt-5">
         {costs.length === 0 ? (
-          <EmptyState>Aún no hay gastos registrados.</EmptyState>
+          <EmptyState title="Aún no hay gastos registrados." />
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[36rem] text-left tabular-nums">
+          <TableScroll label="Registro de costos" minWidth="36rem">
+            <table className="w-full text-left tabular-nums">
               <thead className="text-sm text-piedra">
                 <tr className="border-b border-linea">
                   <th className="py-2 pr-4 font-bold">Mes</th>
@@ -49,7 +49,7 @@ export default async function CostsPage() {
                 ))}
               </tbody>
               <tfoot>
-                <tr className="border-t-2 border-anil font-bold">
+                <tr className="border-t-2 border-tinta font-bold">
                   <td className="py-2 pr-4" colSpan={2}>
                     Total
                   </td>
@@ -59,7 +59,7 @@ export default async function CostsPage() {
                 </tr>
               </tfoot>
             </table>
-          </div>
+          </TableScroll>
         )}
       </Card>
     </>

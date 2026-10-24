@@ -16,8 +16,7 @@ export const COMORBIDITIES = {
 export const RISK_QUESTIONS = {
   embarazo: "Estoy embarazada, buscando un embarazo o dando pecho",
   tca: "Tengo o tuve un trastorno de la conducta alimentaria (anorexia, bulimia o atracones)",
-  tiroides_medular:
-    "Yo o un familiar directo tuvimos cáncer medular de tiroides o síndrome MEN2",
+  tiroides_medular: "Yo o un familiar directo tuvimos cáncer medular de tiroides o síndrome MEN2",
   pancreatitis: "He tenido pancreatitis",
   vesicula: "Tengo piedras en la vesícula",
   diabetes1: "Tengo diabetes tipo 1",

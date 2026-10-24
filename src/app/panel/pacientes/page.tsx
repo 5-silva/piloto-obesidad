@@ -1,4 +1,4 @@
-import { Card, EmptyState, PageHeader, PatientStatusPill, TextLink } from "@/components/panel/ui";
+import { Card, EmptyState, PageHeader, PatientStatusPill, TextLink, TableScroll } from "@/components/panel/ui";
 import { DEPOSIT_LABELS } from "@/lib/data/types";
 import { getSnapshot } from "@/lib/data/snapshot";
 import { formatDateMx, programWeek, todayMx } from "@/lib/dates";
@@ -24,10 +24,10 @@ export default async function PatientsPage() {
       </PageHeader>
       <Card>
         {rows.length === 0 ? (
-          <EmptyState>Aún no hay pacientes. Se activan desde la lista de espera después de la valoración.</EmptyState>
+          <EmptyState title="Aún no hay pacientes. Se activan desde la lista de espera después de la valoración." />
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[50rem] text-left tabular-nums">
+          <TableScroll label="Pacientes" minWidth="50rem">
+            <table className="w-full text-left tabular-nums">
               <thead className="text-sm text-piedra">
                 <tr className="border-b border-linea">
                   <th className="py-2 pr-4 font-bold">Paciente</th>
@@ -61,17 +61,21 @@ export default async function PatientsPage() {
                         "—"
                       )}
                     </td>
-                    <td className="py-2.5 pr-4 text-right">{change === null ? "—" : `${change > 0 ? "+" : ""}${change.toFixed(1)}%`}</td>
+                    <td className="py-2.5 pr-4 text-right">
+                      {change === null ? "—" : `${change > 0 ? "+" : ""}${change.toFixed(1)}%`}
+                    </td>
                     <td className="py-2.5 pr-4">{DEPOSIT_LABELS[p.deposit]}</td>
                     <td className="py-2.5">{channelLabel(p.channel)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
+          </TableScroll>
         )}
       </Card>
-      <p className="mt-3 text-sm text-piedra">Inicio más antiguo: {rows.length ? formatDateMx(rows.map((r) => r.p.startDate).sort()[0]) : "—"}.</p>
+      <p className="mt-3 text-sm text-piedra">
+        Inicio más antiguo: {rows.length ? formatDateMx(rows.map((r) => r.p.startDate).sort()[0]) : "—"}.
+      </p>
     </>
   );
 }

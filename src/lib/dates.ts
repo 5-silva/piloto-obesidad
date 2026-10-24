@@ -30,9 +30,7 @@ export function weeksCompleted(startDate: string, today: string): number {
 }
 
 export function formatDateMx(date: string): string {
-  return new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "short", timeZone: "UTC" }).format(
-    new Date(toUtc(date)),
-  );
+  return new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "short", timeZone: "UTC" }).format(new Date(toUtc(date)));
 }
 
 export function monthStart(date: string): string {

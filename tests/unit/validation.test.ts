@@ -81,14 +81,27 @@ describe("tamizaje", () => {
   });
 
   it("sin consentimiento de datos de salud no se guarda", () => {
-    const r = parseScreeningForm(fd([["age", "41"], ["height_cm", "162"], ["weight_kg", "88"], ["glp1", "no"]]));
+    const r = parseScreeningForm(
+      fd([
+        ["age", "41"],
+        ["height_cm", "162"],
+        ["weight_kg", "88"],
+        ["glp1", "no"],
+      ]),
+    );
     expect(r.ok).toBe(false);
     if (r.ok) return;
     expect(r.errors.healthConsent).toMatch(/consentimiento/);
   });
 
   it("exige contestar las preguntas de seguridad", () => {
-    const base: [string, string][] = [["age", "41"], ["height_cm", "162"], ["weight_kg", "88"], ["glp1", "no"], ["health_consent", "on"]];
+    const base: [string, string][] = [
+      ["age", "41"],
+      ["height_cm", "162"],
+      ["weight_kg", "88"],
+      ["glp1", "no"],
+      ["health_consent", "on"],
+    ];
     const none = parseScreeningForm(fd(base));
     expect(none.ok).toBe(false);
     if (!none.ok) expect(none.errors.riskAnswers).toMatch(/Ninguna/);
@@ -98,7 +111,14 @@ describe("tamizaje", () => {
 
   it("rechaza opciones inventadas", () => {
     const r = parseScreeningForm(
-      fd([["age", "41"], ["height_cm", "162"], ["weight_kg", "88"], ["glp1", "no"], ["health_consent", "on"], ["risk", "otra"]]),
+      fd([
+        ["age", "41"],
+        ["height_cm", "162"],
+        ["weight_kg", "88"],
+        ["glp1", "no"],
+        ["health_consent", "on"],
+        ["risk", "otra"],
+      ]),
     );
     expect(r.ok).toBe(false);
   });
@@ -107,17 +127,46 @@ describe("tamizaje", () => {
 describe("check-in", () => {
   it("requiere el peso y convierte escalas", () => {
     expect(parseCheckinForm(fd([["mood", "4"]])).ok).toBe(false);
-    const r = parseCheckinForm(fd([["weight_kg", "84.2"], ["mood", "4"], ["nausea", "0"], ["warning", "vomito"]]));
+    const r = parseCheckinForm(
+      fd([
+        ["weight_kg", "84.2"],
+        ["mood", "4"],
+        ["nausea", "0"],
+        ["warning", "vomito"],
+      ]),
+    );
     expect(r).toMatchObject({ ok: true, data: { weightKg: 84.2, mood: 4, nausea: 0, warningSigns: ["vomito"], note: null } });
   });
 });
 
 describe("costos", () => {
   it("valida mes y monto", () => {
-    expect(parseCostForm(fd([["month", "2026-10"], ["channel", "Instagram"], ["amount_mxn", "3500"]]))).toMatchObject({
+    expect(
+      parseCostForm(
+        fd([
+          ["month", "2026-10"],
+          ["channel", "Instagram"],
+          ["amount_mxn", "3500"],
+        ]),
+      ),
+    ).toMatchObject({
       ok: true,
       data: { month: "2026-10", channel: "instagram", amountMxn: 3500, hours: 0 },
     });
-    expect(parseCostForm(fd([["month", "2026-13"], ["channel", "x"], ["amount_mxn", "-1"]])).ok).toBe(false);
+    expect(
+      parseCostForm(
+        fd([
+          ["month", "2026-13"],
+          ["channel", "x"],
+          ["amount_mxn", "-1"],
+        ]),
+      ).ok,
+    ).toBe(false);
+  });
+});
+
+describe("números con coma decimal", () => {
+  it("acepta «74,5» como 74.5 en el check-in", () => {
+    expect(parseCheckinForm(fd([["weight_kg", "74,5"]]))).toMatchObject({ ok: true, data: { weightKg: 74.5 } });
   });
 });

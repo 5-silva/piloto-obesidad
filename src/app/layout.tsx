@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/atkinson-hyperlegible-next";
+import "@fontsource-variable/hanken-grotesk";
 import "./globals.css";
 import { PublicAnalytics } from "@/components/analytics";
 import { site } from "@/lib/config";
@@ -13,16 +13,19 @@ export const metadata: Metadata = {
   openGraph: { locale: "es_MX", type: "website", siteName: site.brand },
 };
 
-export const viewport: Viewport = { themeColor: "#fafbf9" };
+export const viewport: Viewport = { themeColor: "#ffffff" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es-MX" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">
+    <html lang="es-MX" className="h-full">
+      <body className="flex min-h-full flex-col">
         {isDemo() && (
-          <div role="note" className="bg-aviso-fondo text-aviso text-sm px-4 py-2 text-center">
+          <aside
+            aria-label="Aviso de demostración"
+            className="bg-aviso-suave px-4 py-2 text-center text-xs font-semibold text-aviso sm:text-sm"
+          >
             Versión de demostración con datos ficticios. No escribas datos reales.
-          </div>
+          </aside>
         )}
         {children}
         <PublicAnalytics />

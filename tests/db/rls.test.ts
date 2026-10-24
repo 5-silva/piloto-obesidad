@@ -33,9 +33,7 @@ async function as(user: string | null, sql: string, params: unknown[] = []) {
   if (user === null) {
     await db.exec("set role anon; select set_config('request.jwt.claim.sub', '', false);");
   } else {
-    await db.exec(
-      `set role authenticated; select set_config('request.jwt.claim.sub', '${user}', false);`,
-    );
+    await db.exec(`set role authenticated; select set_config('request.jwt.claim.sub', '${user}', false);`);
   }
   try {
     return await db.query(sql, params);
@@ -47,10 +45,7 @@ async function as(user: string | null, sql: string, params: unknown[] = []) {
 beforeAll(async () => {
   db = new PGlite();
   await db.exec(SHIM);
-  const migration = readFileSync(
-    join(__dirname, "../../supabase/migrations/20261024000000_init.sql"),
-    "utf8",
-  );
+  const migration = readFileSync(join(__dirname, "../../supabase/migrations/20261024000000_init.sql"), "utf8");
   await db.exec(migration);
 
   await db.exec(`
@@ -73,10 +68,7 @@ beforeAll(async () => {
   );
   anaPatient = ana.rows[0].id;
   luisPatient = luis.rows[0].id;
-  await db.query(
-    "insert into public.checkins (patient_id, week, weight_kg) values ($1, 1, 82.0)",
-    [luisPatient],
-  );
+  await db.query("insert into public.checkins (patient_id, week, weight_kg) values ($1, 1, 82.0)", [luisPatient]);
 });
 
 afterAll(async () => {
@@ -139,9 +131,9 @@ describe("paciente", () => {
   });
 
   it("no puede registrar check-ins de otra persona", async () => {
-    await expect(
-      as(ANA, "insert into public.checkins (patient_id, week) values ($1, 1)", [luisPatient]),
-    ).rejects.toThrow(/row-level security/);
+    await expect(as(ANA, "insert into public.checkins (patient_id, week) values ($1, 1)", [luisPatient])).rejects.toThrow(
+      /row-level security/,
+    );
   });
 
   it("no ve check-ins de otra persona", async () => {
@@ -150,9 +142,9 @@ describe("paciente", () => {
   });
 
   it("un paciente dado de baja no puede registrar check-ins", async () => {
-    await expect(
-      as(LUIS, "insert into public.checkins (patient_id, week) values ($1, 2)", [luisPatient]),
-    ).rejects.toThrow(/row-level security/);
+    await expect(as(LUIS, "insert into public.checkins (patient_id, week) values ($1, 2)", [luisPatient])).rejects.toThrow(
+      /row-level security/,
+    );
   });
 
   it("no puede modificar su propio registro de paciente", async () => {

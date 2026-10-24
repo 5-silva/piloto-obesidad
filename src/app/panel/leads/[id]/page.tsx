@@ -1,7 +1,10 @@
+import { buttonClass } from "@/components/ui/button";
 import { notFound } from "next/navigation";
 import { saveLeadNotes, setLeadStatus } from "@/app/actions/panel";
 import { ActivateForm } from "@/components/panel/activate-form";
-import { Card, LeadStatusPill, PageHeader, Pill, TextLink, WaButton } from "@/components/panel/ui";
+import { CopyButton } from "@/components/ui/copy-button";
+import { Badge } from "@/components/ui/surface";
+import { Card, LeadStatusPill, PageHeader, TextLink, WaButton } from "@/components/panel/ui";
 import { site } from "@/lib/config";
 import { GLP1_LABELS, LEAD_STATUS_LABELS, type LeadStatus } from "@/lib/data/types";
 import { getSnapshot } from "@/lib/data/snapshot";
@@ -37,7 +40,10 @@ export default async function LeadDetail({ params }: PageProps<"/panel/leads/[id
         <LeadStatusPill status={lead.status} />
       </PageHeader>
       <div className="grid gap-5 xl:grid-cols-2">
-        <Card title="Contacto" action={<WaButton href={waLink(lead.phone, templates.firstContact(lead.name, screeningUrl))}>Escribir</WaButton>}>
+        <Card
+          title="Contacto"
+          action={<WaButton href={waLink(lead.phone, templates.firstContact(lead.name, screeningUrl))}>Escribir</WaButton>}
+        >
           <dl>
             <Row label="Celular">{formatMxPhone(lead.phone)}</Row>
             <Row label="Correo">{lead.email}</Row>
@@ -49,8 +55,8 @@ export default async function LeadDetail({ params }: PageProps<"/panel/leads/[id
               {lead.utmCampaign && <span className="text-piedra">, campaña {lead.utmCampaign}</span>}
             </Row>
             <Row label="Registro">{formatDateMx(lead.createdAt.slice(0, 10))}</Row>
-            <Row label="Liga del cuestionario">
-              <span className="break-all text-sm">{screeningUrl}</span>
+            <Row label="Cuestionario">
+              <CopyButton text={screeningUrl} label="Copiar liga" />
             </Row>
           </dl>
         </Card>
@@ -61,9 +67,9 @@ export default async function LeadDetail({ params }: PageProps<"/panel/leads/[id
               {s.flags.length > 0 && (
                 <div className="mb-3 flex flex-wrap gap-1.5">
                   {s.flags.map((f) => (
-                    <Pill key={f} tone={s.result === "no_elegible" ? "neutral" : "warn"}>
+                    <Badge key={f} tone={s.result === "no_elegible" ? "neutral" : "aviso"}>
                       {FLAG_LABELS[f] ?? f}
-                    </Pill>
+                    </Badge>
                   ))}
                 </div>
               )}
@@ -79,7 +85,9 @@ export default async function LeadDetail({ params }: PageProps<"/panel/leads/[id
                 </Row>
                 <Row label="Cintura">{s.waistCm ? `${s.waistCm} cm` : "—"}</Row>
                 <Row label="Enfermedades">
-                  {s.comorbidities.length ? s.comorbidities.map((c) => COMORBIDITIES[c as keyof typeof COMORBIDITIES] ?? c).join("; ") : "Ninguna"}
+                  {s.comorbidities.length
+                    ? s.comorbidities.map((c) => COMORBIDITIES[c as keyof typeof COMORBIDITIES] ?? c).join("; ")
+                    : "Ninguna"}
                 </Row>
                 <Row label="Medicamentos">{s.medications ?? "—"}</Row>
                 <Row label="Contestó">{formatDateMx(s.createdAt.slice(0, 10))}</Row>
@@ -94,11 +102,11 @@ export default async function LeadDetail({ params }: PageProps<"/panel/leads/[id
         <Card title="Seguimiento">
           <form action={setLeadStatus} className="flex flex-wrap items-end gap-3">
             <input type="hidden" name="id" value={lead.id} />
-            <div className="field">
-              <label htmlFor="status" className="label">
+            <div className="grid content-start gap-2">
+              <label htmlFor="status" className="font-semibold">
                 Estado
               </label>
-              <select id="status" name="status" defaultValue={lead.status} className="input">
+              <select id="status" name="status" defaultValue={lead.status} className="control">
                 {(Object.keys(LEAD_STATUS_LABELS) as LeadStatus[]).map((k) => (
                   <option key={k} value={k}>
                     {LEAD_STATUS_LABELS[k]}
@@ -106,18 +114,18 @@ export default async function LeadDetail({ params }: PageProps<"/panel/leads/[id
                 ))}
               </select>
             </div>
-            <button className="btn btn-secondary">Guardar estado</button>
+            <button className={buttonClass({ variant: "secondary" })}>Guardar estado</button>
           </form>
           <form action={saveLeadNotes} className="mt-5 grid gap-3">
             <input type="hidden" name="id" value={lead.id} />
-            <div className="field">
-              <label htmlFor="notes" className="label">
+            <div className="grid content-start gap-2">
+              <label htmlFor="notes" className="font-semibold">
                 Notas internas
               </label>
-              <textarea id="notes" name="notes" rows={4} defaultValue={lead.notes ?? ""} className="input" />
-              <p className="hint">Sin datos clínicos: esos van en el expediente del médico.</p>
+              <textarea id="notes" name="notes" rows={4} defaultValue={lead.notes ?? ""} className="control" />
+              <p className="text-sm text-piedra">Sin datos clínicos: esos van en el expediente del médico.</p>
             </div>
-            <button className="btn btn-secondary justify-self-start">Guardar notas</button>
+            <button className={`${buttonClass({ variant: "secondary" })} justify-self-start`}>Guardar notas</button>
           </form>
         </Card>
 
@@ -128,7 +136,7 @@ export default async function LeadDetail({ params }: PageProps<"/panel/leads/[id
             </p>
           ) : lead.status === "agendado" || lead.status === "elegible" || lead.status === "revisar" ? (
             <>
-              <p className="mb-4 text-anil-suave">
+              <p className="mb-4 text-tinta-2">
                 Actívalo después de la valoración, solo si el médico lo aprobó. Se crea su acceso al portal con este correo.
               </p>
               <ActivateForm leadId={lead.id} today={nextMonday(todayMx())} />

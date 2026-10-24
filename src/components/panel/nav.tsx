@@ -14,7 +14,7 @@ const LINKS = [
 export function PanelNav({ counts }: { counts: Record<string, number> }) {
   const path = usePathname();
   return (
-    <nav aria-label="Panel" className="flex gap-1 overflow-x-auto md:flex-col md:overflow-visible">
+    <nav aria-label="Panel" className="-mx-1 flex gap-1 overflow-x-auto px-1 pb-1 md:mx-0 md:flex-col md:overflow-visible md:p-0">
       {LINKS.map((l) => {
         const active = l.href === "/panel" ? path === "/panel" : path.startsWith(l.href);
         const count = counts[l.href];
@@ -23,13 +23,18 @@ export function PanelNav({ counts }: { counts: Record<string, number> }) {
             key={l.href}
             href={l.href}
             aria-current={active ? "page" : undefined}
-            className={`flex items-center justify-between gap-3 whitespace-nowrap rounded-lg px-3 py-2 font-bold ${
-              active ? "bg-anil text-blanco" : "text-anil-suave hover:bg-hoja"
+            className={`flex h-10 items-center justify-between gap-3 rounded-full px-4 text-sm font-semibold whitespace-nowrap transition-colors ${
+              active ? "bg-tinta text-blanco" : "text-tinta-2 hover:bg-niebla hover:text-tinta"
             }`}
           >
             {l.label}
             {count ? (
-              <span className={`rounded-full px-2 text-sm ${active ? "bg-blanco text-anil" : "bg-rosa text-blanco"}`}>{count}</span>
+              <span
+                className={`min-w-6 rounded-full px-1.5 text-center text-xs leading-5 ${active ? "bg-blanco text-tinta" : "bg-rosa text-blanco"}`}
+              >
+                {count}
+                <span className="sr-only"> pendientes</span>
+              </span>
             ) : null}
           </Link>
         );

@@ -1,6 +1,8 @@
+import { buttonClass } from "@/components/ui/button";
 import { notFound } from "next/navigation";
 import { updatePatient } from "@/app/actions/panel";
-import { Card, PageHeader, PatientStatusPill, Pill, TextLink, WaButton } from "@/components/panel/ui";
+import { Badge } from "@/components/ui/surface";
+import { Card, PageHeader, PatientStatusPill, TextLink, WaButton, TableScroll } from "@/components/panel/ui";
 import { WeightChart } from "@/components/weight-chart";
 import { MOOD_SCALE, SYMPTOM_SCALE, WARNING_SIGNS } from "@/lib/checkin";
 import { site } from "@/lib/config";
@@ -30,12 +32,24 @@ export default async function PatientDetail({ params }: PageProps<"/panel/pacien
       <PageHeader title={p.displayName}>
         <div className="flex flex-wrap items-center gap-2">
           <PatientStatusPill status={p.status} />
-          <WaButton href={waLink(p.phone, `Hola, ${p.displayName.split(" ")[0]}. Soy del equipo de ${site.brand}. `)}>Escribir</WaButton>
+          <WaButton href={waLink(p.phone, `Hola, ${p.displayName.split(" ")[0]}. Soy del equipo de ${site.brand}. `)}>
+            Escribir
+          </WaButton>
         </div>
       </PageHeader>
 
       <div className="grid gap-5 xl:grid-cols-[1.5fr_1fr]">
-        <Card title="Peso por semana" action={p.status === "activo" ? <span className="text-piedra">Semana {week}{week > 12 ? ", después del programa base de 12" : " de 12"}</span> : undefined}>
+        <Card
+          title="Peso por semana"
+          action={
+            p.status === "activo" ? (
+              <span className="text-piedra">
+                Semana {week}
+                {week > 12 ? ", después del programa base de 12" : " de 12"}
+              </span>
+            ) : undefined
+          }
+        >
           <WeightChart points={points} currentWeek={p.status === "activo" ? week : undefined} />
         </Card>
         <Card title="Datos del programa">
@@ -68,11 +82,11 @@ export default async function PatientDetail({ params }: PageProps<"/panel/pacien
           <form action={updatePatient} className="mt-5 grid gap-3">
             <input type="hidden" name="id" value={p.id} />
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="field">
-                <label htmlFor="status" className="label">
+              <div className="grid content-start gap-2">
+                <label htmlFor="status" className="font-semibold">
                   Estado
                 </label>
-                <select id="status" name="status" defaultValue={p.status} className="input">
+                <select id="status" name="status" defaultValue={p.status} className="control">
                   {(Object.keys(PATIENT_STATUS_LABELS) as PatientStatus[]).map((k) => (
                     <option key={k} value={k}>
                       {PATIENT_STATUS_LABELS[k]}
@@ -80,11 +94,11 @@ export default async function PatientDetail({ params }: PageProps<"/panel/pacien
                   ))}
                 </select>
               </div>
-              <div className="field">
-                <label htmlFor="deposit" className="label">
+              <div className="grid content-start gap-2">
+                <label htmlFor="deposit" className="font-semibold">
                   Depósito
                 </label>
-                <select id="deposit" name="deposit" defaultValue={p.deposit} className="input">
+                <select id="deposit" name="deposit" defaultValue={p.deposit} className="control">
                   {(Object.keys(DEPOSIT_LABELS) as DepositStatus[]).map((k) => (
                     <option key={k} value={k}>
                       {DEPOSIT_LABELS[k]}
@@ -93,14 +107,14 @@ export default async function PatientDetail({ params }: PageProps<"/panel/pacien
                 </select>
               </div>
             </div>
-            <div className="field">
-              <label htmlFor="dropReason" className="label">
+            <div className="grid content-start gap-2">
+              <label htmlFor="dropReason" className="font-semibold">
                 Motivo de baja o pausa
               </label>
-              <input id="dropReason" name="dropReason" defaultValue={p.dropReason ?? ""} className="input" />
-              <p className="hint">Sirve para entender por qué se van. Sin datos clínicos.</p>
+              <input id="dropReason" name="dropReason" defaultValue={p.dropReason ?? ""} className="control" />
+              <p className="text-sm text-piedra">Sirve para entender por qué se van. Sin datos clínicos.</p>
             </div>
-            <button className="btn btn-secondary justify-self-start">Guardar cambios</button>
+            <button className={`${buttonClass({ variant: "secondary" })} justify-self-start`}>Guardar cambios</button>
           </form>
         </Card>
       </div>
@@ -109,8 +123,8 @@ export default async function PatientDetail({ params }: PageProps<"/panel/pacien
         {checkins.length === 0 ? (
           <p className="text-piedra">Aún no registra check-ins.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[48rem] text-left tabular-nums">
+          <TableScroll label="Check-ins del paciente" minWidth="48rem">
+            <table className="w-full text-left tabular-nums">
               <thead className="text-sm text-piedra">
                 <tr className="border-b border-linea">
                   <th className="py-2 pr-4 font-bold">Semana</th>
@@ -126,7 +140,10 @@ export default async function PatientDetail({ params }: PageProps<"/panel/pacien
               </thead>
               <tbody>
                 {checkins.map((c) => (
-                  <tr key={c.id} className={`border-b border-linea align-top last:border-0 ${c.flagged ? "bg-alerta-fondo" : ""}`}>
+                  <tr
+                    key={c.id}
+                    className={`border-b border-linea align-top last:border-0 ${c.flagged ? "bg-alerta-suave" : ""}`}
+                  >
                     <td className="py-2 pr-4 font-bold">{c.week}</td>
                     <td className="py-2 pr-4 text-right">{c.weightKg !== null ? c.weightKg.toFixed(1) : "—"}</td>
                     <td className="py-2 pr-4">{c.tookDose ? DOSE[c.tookDose] : "—"}</td>
@@ -137,9 +154,9 @@ export default async function PatientDetail({ params }: PageProps<"/panel/pacien
                     <td className="py-2 pr-4 text-right">{c.strengthSessions ?? "—"}</td>
                     <td className="py-2">
                       {c.warningSigns.map((w) => (
-                        <Pill key={w} tone="bad">
+                        <Badge key={w} tone="alerta">
                           {WARNING_SIGNS[w as keyof typeof WARNING_SIGNS] ?? w}
-                        </Pill>
+                        </Badge>
                       ))}
                       {c.note && <p className="text-sm">{c.note}</p>}
                     </td>
@@ -147,7 +164,7 @@ export default async function PatientDetail({ params }: PageProps<"/panel/pacien
                 ))}
               </tbody>
             </table>
-          </div>
+          </TableScroll>
         )}
       </Card>
     </>

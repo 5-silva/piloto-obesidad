@@ -10,7 +10,17 @@ export type WeightPoint = { week: number; weightKg: number };
 
 // Peso por semana: una sola serie, línea de 2 px, puntos de 8 px, cuadrícula tenue.
 // Al pasar el cursor o tocar, muestra la semana y el peso. Incluye tabla accesible.
-export function WeightChart({ points, weeks = 12, currentWeek }: { points: WeightPoint[]; weeks?: number; currentWeek?: number }) {
+export function WeightChart({
+  points,
+  weeks = 12,
+  currentWeek,
+  showChange = true,
+}: {
+  points: WeightPoint[];
+  weeks?: number;
+  currentWeek?: number;
+  showChange?: boolean;
+}) {
   const [hover, setHover] = useState<number | null>(null);
   const [width, setWidth] = useState(640);
   const box = useRef<HTMLDivElement>(null);
@@ -29,7 +39,7 @@ export function WeightChart({ points, weeks = 12, currentWeek }: { points: Weigh
   const maxWeek = Math.max(weeks, ...sorted.map((p) => p.week), currentWeek ?? 0);
 
   if (sorted.length === 0) {
-    return <p className="rounded-lg bg-papel p-4 text-piedra">Tu gráfica aparece con tu primer check-in.</p>;
+    return <p className="rounded-lg bg-niebla p-4 text-piedra">Tu gráfica aparece con tu primer check-in.</p>;
   }
 
   const W = width;
@@ -60,7 +70,7 @@ export function WeightChart({ points, weeks = 12, currentWeek }: { points: Weigh
   return (
     <figure>
       <figcaption id={titleId} className="sr-only">
-        Peso por semana. Semana {first.week}: {kg(first.weightKg)}. Semana {last.week}: {kg(last.weightKg)}.
+        Peso por semana. Lunes {first.week}: {kg(first.weightKg)}. Lunes {last.week}: {kg(last.weightKg)}.
       </figcaption>
       <div ref={box} className="relative">
         <svg
@@ -83,11 +93,29 @@ export function WeightChart({ points, weeks = 12, currentWeek }: { points: Weigh
           {Array.from({ length: maxWeek }, (_, i) => i + 1)
             .filter((w) => w === 1 || w === maxWeek || w === currentWeek || (width >= 480 ? w % 2 === 0 : w % 3 === 0))
             .map((w) => (
-              <text key={w} x={x(w)} y={H - 10} textAnchor="middle" fontSize="13" fill={w === currentWeek ? "var(--color-rosa)" : "var(--color-piedra)"} fontWeight={w === currentWeek ? 700 : 400}>
+              <text
+                key={w}
+                x={x(w)}
+                y={H - 10}
+                textAnchor="middle"
+                fontSize="13"
+                fill={w === currentWeek ? "var(--color-rosa)" : "var(--color-piedra)"}
+                fontWeight={w === currentWeek ? 700 : 400}
+              >
                 {w}
               </text>
             ))}
-          {active && <line x1={x(active.week)} x2={x(active.week)} y1={pad.t} y2={H - pad.b} stroke="var(--color-anil-suave)" strokeWidth="1" strokeDasharray="3 3" />}
+          {active && (
+            <line
+              x1={x(active.week)}
+              x2={x(active.week)}
+              y1={pad.t}
+              y2={H - pad.b}
+              stroke="var(--color-tinta-2)"
+              strokeWidth="1"
+              strokeDasharray="3 3"
+            />
+          )}
           <path d={path} fill="none" stroke="var(--color-jade)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
           {sorted.map((p) => (
             <circle
@@ -103,18 +131,23 @@ export function WeightChart({ points, weeks = 12, currentWeek }: { points: Weigh
         </svg>
         {active && (
           <div
-            className="pointer-events-none absolute -translate-x-1/2 rounded-md bg-anil px-2 py-1 text-sm font-bold whitespace-nowrap text-blanco"
+            className="pointer-events-none absolute -translate-x-1/2 rounded-md bg-tinta px-2 py-1 text-sm font-bold whitespace-nowrap text-blanco"
             style={{ left: `${(x(active.week) / W) * 100}%`, top: `${Math.max(0, (y(active.weightKg) / H) * 100 - 22)}%` }}
           >
-            Semana {active.week}: {kg(active.weightKg)}
+            Lunes {active.week}: {kg(active.weightKg)}
           </div>
         )}
       </div>
       <p className="mt-2 text-sm text-piedra">
-        Semana del programa en el eje horizontal, kilos en el vertical.{" "}
-        {sorted.length > 1 && (
+        Lunes del programa en el eje horizontal y kilos en el vertical.{" "}
+        {showChange && sorted.length > 1 && (
           <span>
-            Cambio desde la semana {first.week}: <strong className="text-anil">{diff > 0 ? "+" : ""}{kg(diff)}</strong>.
+            Cambio desde el lunes {first.week}:{" "}
+            <strong className="text-tinta">
+              {diff > 0 ? "+" : ""}
+              {kg(diff)}
+            </strong>
+            .
           </span>
         )}
       </p>
@@ -123,7 +156,7 @@ export function WeightChart({ points, weeks = 12, currentWeek }: { points: Weigh
         <table className="mt-2 tabular-nums">
           <thead>
             <tr>
-              <th className="pr-6 text-left">Semana</th>
+              <th className="pr-6 text-left">Lunes</th>
               <th className="text-left">Peso</th>
             </tr>
           </thead>
