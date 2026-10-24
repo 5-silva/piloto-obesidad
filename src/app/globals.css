@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Constante · tokens
+/* Lunes · tokens
    añil para el texto, jade para actuar, rosa mexicano solo para marcar "hoy"
    y el foco del teclado. Tipografía hiperlegible: el público lee en celular. */
 @theme {

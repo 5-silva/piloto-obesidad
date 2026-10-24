@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { formatMxPhone, normalizeMxPhone } from "@/lib/phone";
-import { addDays, daysBetween, programWeek, todayMx, weeksCompleted } from "@/lib/dates";
+import { addDays, daysBetween, nextMonday, programWeek, todayMx, weeksCompleted } from "@/lib/dates";
 import { bmi, evaluateScreening } from "@/lib/screening";
 import { guidanceFor, isFlagged } from "@/lib/checkin";
 import { waLink } from "@/lib/whatsapp";
@@ -29,6 +29,8 @@ describe("fechas en hora de CDMX", () => {
     expect(programWeek("2026-10-10", "2026-10-01")).toBe(1);
     expect(weeksCompleted("2026-10-01", "2026-10-29")).toBe(4);
     expect(daysBetween("2026-02-27", addDays("2026-02-27", 3))).toBe(3);
+    expect(nextMonday("2026-10-24")).toBe("2026-10-26"); // sábado
+    expect(nextMonday("2026-10-26")).toBe("2026-10-26"); // lunes
   });
 });
 

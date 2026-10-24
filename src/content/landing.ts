@@ -29,7 +29,7 @@ export const steps = [
     body: "Decide contigo si el tratamiento te conviene. Si te receta, compras el medicamento en tu farmacia.",
   },
   {
-    title: "Cada semana registras cómo vas",
+    title: "Cada lunes registras cómo vas",
     body: "Peso, síntomas y ánimo en 2 minutos. El equipo lo revisa y te escribe si algo no está bien.",
   },
   {

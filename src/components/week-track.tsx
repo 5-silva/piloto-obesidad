@@ -9,7 +9,7 @@ export function WeekTrack() {
     <figure className="rounded-2xl border border-linea bg-blanco p-5 sm:p-6">
       <figcaption className="flex items-baseline justify-between gap-3">
         <span className="font-bold">Tus 12 semanas</span>
-        <span className="hint">un check-in por semana</span>
+        <span className="hint">un check-in cada lunes</span>
       </figcaption>
       <ol className="mt-4 grid grid-cols-6 gap-2 sm:gap-2.5" aria-label="Semanas del programa">
         {weeks.map((w) => {

@@ -5,7 +5,7 @@ import { Card, LeadStatusPill, PageHeader, Pill, TextLink, WaButton } from "@/co
 import { site } from "@/lib/config";
 import { GLP1_LABELS, LEAD_STATUS_LABELS, type LeadStatus } from "@/lib/data/types";
 import { getSnapshot } from "@/lib/data/snapshot";
-import { formatDateMx, todayMx } from "@/lib/dates";
+import { formatDateMx, nextMonday, todayMx } from "@/lib/dates";
 import { channelLabel, channelOf } from "@/lib/metrics";
 import { formatMxPhone } from "@/lib/phone";
 import { COMORBIDITIES, FLAG_LABELS } from "@/lib/screening";
@@ -131,7 +131,7 @@ export default async function LeadDetail({ params }: PageProps<"/panel/leads/[id
               <p className="mb-4 text-anil-suave">
                 Actívalo después de la valoración, solo si el médico lo aprobó. Se crea su acceso al portal con este correo.
               </p>
-              <ActivateForm leadId={lead.id} today={todayMx()} />
+              <ActivateForm leadId={lead.id} today={nextMonday(todayMx())} />
             </>
           ) : (
             <p className="text-piedra">Se activa después de la valoración médica.</p>

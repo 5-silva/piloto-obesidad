@@ -23,7 +23,8 @@ export function ActivateForm({ leadId, today }: { leadId: string; today: string 
         <label htmlFor="startDate" className="label">
           Semana 1 empieza
         </label>
-        <input id="startDate" name="startDate" type="date" defaultValue={today} className="input" />
+        <input id="startDate" name="startDate" type="date" defaultValue={today} className="input" aria-describedby="startDate-hint" />
+        <p id="startDate-hint" className="hint">De preferencia un lunes: el check-in cae cada lunes.</p>
       </div>
       <div className="field">
         <label htmlFor="programFormat" className="label">

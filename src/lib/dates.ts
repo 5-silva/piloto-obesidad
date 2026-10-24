@@ -38,3 +38,9 @@ export function formatDateMx(date: string): string {
 export function monthStart(date: string): string {
   return `${date.slice(0, 7)}-01`;
 }
+
+/** Hoy si es lunes; si no, el lunes siguiente. Las semanas del programa arrancan en lunes. */
+export function nextMonday(date: string): string {
+  const day = new Date(toUtc(date)).getUTCDay(); // 0 domingo … 1 lunes
+  return addDays(date, (8 - day) % 7);
+}

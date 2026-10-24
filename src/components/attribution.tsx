@@ -6,8 +6,8 @@ import { useEffect } from "react";
 // vista de la landing y los clics en botones marcados con data-cta.
 // No usa cookies ni manda datos personales: solo un id de sesión aleatorio.
 
-const KEY = "constante_attr";
-const SID = "constante_sid";
+const KEY = "lunes_attr";
+const SID = "lunes_sid";
 
 export type Attr = { utm_source?: string; utm_medium?: string; utm_campaign?: string; ref?: string };
 

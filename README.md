@@ -1,4 +1,4 @@
-# Constante · piloto digital
+# Lunes · piloto digital
 
 Aplicación web del piloto de acompañamiento para personas que usan o van a iniciar un medicamento para bajar de peso en México. Valida la demanda con 15 a 30 pacientes antes del MVP.
 

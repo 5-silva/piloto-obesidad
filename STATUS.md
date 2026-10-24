@@ -20,13 +20,13 @@ Actualizado: 24 de octubre de 2026.
 |---|---|---|
 | Repositorio `5-silva/piloto-obesidad` en GitHub | Diego | Publicar en Vercel |
 | Sesión iniciada en Vercel y Supabase en el navegador de la app | Diego | Configurar los servicios |
-| Nombre de marca y dominio | Equipo | Correos, aviso de privacidad, publicación |
+| Dominio para «Lunes» | Equipo | Correos, aviso de privacidad, publicación |
 | Abogado sanitario y responsable del aviso con domicilio | Equipo | Abrir la lista de espera |
 | Médico aliado con cédula | Equipo | Aprobar contenido clínico y primer paciente |
 
 ## Decisiones pendientes
 
-- Nombre de marca: «Constante» (provisional), «Sostén» o «Rumbo».
+- Nombre de marca: «Lunes» como nombre de trabajo; falta confirmar dominio y registro de marca ante el IMPI.
 - Pasarela de pago (Mercado Pago recomendado), después del visto bueno legal.
 - Tiempo máximo de respuesta a alertas (lo define el médico).
 

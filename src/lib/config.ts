@@ -3,7 +3,7 @@
 // de entorno, no repartido en las páginas.
 
 export const site = {
-  brand: process.env.NEXT_PUBLIC_BRAND_NAME || "Constante",
+  brand: process.env.NEXT_PUBLIC_BRAND_NAME || "Lunes",
   priceMxn: Number(process.env.NEXT_PUBLIC_PRICE_MXN || 2500),
   // Número de WhatsApp del piloto, 10 dígitos de México (sin +52).
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "",
