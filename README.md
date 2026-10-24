@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Constante · piloto digital
 
-## Getting Started
+Aplicación web del piloto de acompañamiento para personas que usan o van a iniciar un medicamento para bajar de peso en México. Valida la demanda con 15 a 30 pacientes antes del MVP.
 
-First, run the development server:
+Tres vistas sobre una sola base de datos:
+
+| Vista | Ruta | Para quién |
+|---|---|---|
+| Landing y lista de espera | `/` | Visitantes. Mide demanda y canal de origen. |
+| Cuestionario de tamizaje | `/tamizaje/[liga]` | Cada registro, con su liga personal. |
+| Portal del paciente | `/portal` | Pacientes activos: check-in semanal y gráfica. |
+| Panel del equipo | `/panel` | Coordinación y médicos: lista diaria, embudo, métricas. |
+
+El piloto **no receta, no vende medicamento y no guarda el expediente clínico**. El médico aliado lleva el expediente en su sistema.
+
+## Correr en tu computadora
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev          # http://localhost:3000, en modo demo
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sin variables de Supabase la app corre en **modo demo**: datos ficticios en memoria y acceso con un clic en `/login`. Copia `.env.example` a `.env.local` para conectar servicios reales.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Pruebas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run check        # lint + tipos + pruebas unitarias y de permisos (RLS)
+npm run test:e2e     # recorrido completo en un celular emulado, en modo demo
+```
 
-## Learn More
+Las pruebas de permisos cargan la migración real en un Postgres embebido (PGlite) y comprueban que cada paciente vea solo lo suyo.
 
-To learn more about Next.js, take a look at the following resources:
+## Estructura
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/app/            páginas, acciones de servidor y rutas de API
+src/components/     interfaz (landing, formularios, panel, gráfica)
+src/content/        textos de la landing, editables sin tocar diseño
+src/lib/            reglas de negocio puras (tamizaje, check-in, métricas)
+src/lib/data/       acceso a datos: Supabase o memoria (demo)
+supabase/migrations esquema, triggers y permisos por fila
+tests/              unitarias, permisos (db) y punta a punta (e2e)
+docs/               puesta en marcha, operación, métricas y contenido clínico
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Documentos
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [STATUS.md](STATUS.md): avance, bloqueos, decisiones pendientes y siguientes pasos.
+- [docs/SETUP.md](docs/SETUP.md): cómo publicar (Supabase, Vercel, Resend, Cal.com).
+- [docs/RUNBOOK.md](docs/RUNBOOK.md): operación diaria y qué hacer ante alertas o incidentes.
+- [docs/METRICAS.md](docs/METRICAS.md): cómo se calcula cada métrica y qué decide.
+- [docs/CONTENIDO-CLINICO.md](docs/CONTENIDO-CLINICO.md): textos que debe aprobar el médico responsable.
