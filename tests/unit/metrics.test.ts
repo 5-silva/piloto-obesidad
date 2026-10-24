@@ -135,3 +135,19 @@ describe("repositorio de demo", () => {
     expect(s.leads.find((l) => l.id === lead.id)!.status).toBe("activo");
   });
 });
+
+describe("recordatorios", async () => {
+  const { dueReminders } = await import("@/lib/reminders");
+  it("avisa el día 1 y el día 5 solo si falta el check-in", () => {
+    const day1 = patient("d1", 14); // día 1 de la semana 3
+    const day5 = patient("d5", 11); // día 5 de la semana 2
+    const day3 = patient("d3", 9); // día 3: no toca
+    const done = patient("ok", 14);
+    const paused = patient("p", 14, { status: "pausa" });
+    const r = dueReminders([day1, day5, day3, done, paused], [checkin("ok", 3)], TODAY);
+    expect(r.map((x) => [x.patient.id, x.week, x.late])).toEqual([
+      ["d1", 3, false],
+      ["d5", 2, true],
+    ]);
+  });
+});

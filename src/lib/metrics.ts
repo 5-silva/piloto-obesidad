@@ -12,6 +12,13 @@ export function channelOf(x: { refCode: string | null; utmSource: string | null 
   return x.utmSource?.trim().toLowerCase() || "directo";
 }
 
+export const CHANNEL_LABELS: Record<string, string> = { medico: "Médico", directo: "Directo" };
+
+export function channelLabel(channel: string | null): string {
+  if (!channel) return "Directo";
+  return CHANNEL_LABELS[channel] ?? channel.charAt(0).toUpperCase() + channel.slice(1);
+}
+
 export type Rate = { numerator: number; denominator: number; rate: number | null };
 
 function rate(numerator: number, denominator: number): Rate {
@@ -171,7 +178,7 @@ export function computeMetrics(data: Snapshot, today: string, priceMxn: number):
       id: "HC1",
       label: "Pagan el servicio",
       target: "≥ 20 depósitos y conversión ≥ 5%",
-      actual: `${depositsPaid} depósitos · conversión ${pct(landingConversion.rate)}`,
+      actual: `${depositsPaid} depósitos y conversión de ${pct(landingConversion.rate)}`,
       status:
         landingConversion.rate === null && depositsPaid === 0
           ? "sin_datos"

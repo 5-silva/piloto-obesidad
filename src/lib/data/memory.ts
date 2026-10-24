@@ -120,7 +120,7 @@ export function seed(today: string = todayMx()): Store {
   for (const lead of leads) {
     const age = daysBetween(lead.createdAt.slice(0, 10), today);
     const r = rand();
-    if (age < 2 && r < 0.7) continue;
+    if (age < 3 && r < 0.85) continue;
     if (r < 0.12) {
       lead.status = "contactado";
       continue;
@@ -160,7 +160,7 @@ export function seed(today: string = todayMx()): Store {
   const patients: Patient[] = [];
   const checkins: Checkin[] = [];
   const candidates = leads.filter((l) => l.status === "agendado").slice(0, 14);
-  const starts = [91, 84, 84, 77, 70, 63, 56, 49, 42, 35, 28, 21, 14, 7];
+  const starts = [38, 93, 86, 84, 79, 71, 66, 58, 51, 45, 30, 25, 16, 11];
   candidates.forEach((lead, i) => {
     const startDate = addDays(today, -(starts[i] ?? 7));
     lead.status = "activo";
@@ -172,7 +172,7 @@ export function seed(today: string = todayMx()): Store {
       userId: i === 0 ? DEMO_PATIENT_USER : null,
       createdAt: `${startDate}T10:00:00.000-06:00`,
       displayName: i === 0 ? "Ana (paciente de ejemplo)" : lead.name,
-      email: lead.email,
+      email: i === 0 ? "ana@ejemplo.mx" : lead.email,
       phone: lead.phone,
       startDate,
       status: dropped ? "baja" : "activo",
@@ -189,7 +189,7 @@ export function seed(today: string = todayMx()): Store {
     let weight = s?.weightKg ?? 88;
     for (let w = 1; w <= lastWeek; w++) {
       const isCurrent = w === weeksSoFar;
-      if (isCurrent && rand() < 0.45) continue; // aún no registra esta semana
+      if (isCurrent && (i === 0 || rand() < 0.45)) continue; // aún no registra esta semana
       if (!isCurrent && rand() < 0.1) continue; // semana perdida
       weight = Math.round((weight * (1 - (0.004 + rand() * 0.009))) * 10) / 10;
       const nausea = w <= 4 ? Math.floor(rand() * 3) : Math.floor(rand() * 2);
@@ -338,6 +338,11 @@ export function memoryRepo(data?: Store, today: () => string = todayMx): Repo {
       const existing = d.costs.find((c) => c.month === cost.month && c.channel === cost.channel);
       if (existing) Object.assign(existing, cost);
       else d.costs.push({ ...cost, id: randomUUID() });
+    },
+
+    async reminderData() {
+      const d = db();
+      return clone({ patients: d.patients.filter((p) => p.status === "activo"), checkins: d.checkins });
     },
 
     async myPatient(userId) {

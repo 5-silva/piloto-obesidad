@@ -297,6 +297,18 @@ export function supabaseRepo(): Repo {
       );
     },
 
+    async reminderData() {
+      const admin = adminClient();
+      const patients = must(await admin.from("patients").select("*").eq("status", "activo"), "patients") as Row[];
+      const ids = patients.map((p) => String(p.id));
+      if (ids.length === 0) return { patients: [], checkins: [] };
+      const checkins = must(
+        await admin.from("checkins").select("*").in("patient_id", ids).gte("created_at", new Date(Date.now() - 15 * 86_400_000).toISOString()),
+        "checkins",
+      ) as Row[];
+      return { patients: patients.map(toPatient), checkins: checkins.map(toCheckin) };
+    },
+
     // --- Paciente: sesión del usuario, RLS limita a sus propias filas ---
     async myPatient(userId) {
       const db = await createUserClient();

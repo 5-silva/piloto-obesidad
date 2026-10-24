@@ -187,6 +187,9 @@ export interface Repo {
   ): Promise<void>;
   upsertCost(cost: Omit<ChannelCost, "id">): Promise<void>;
 
+  /** Para la tarea programada de recordatorios (sin sesión; llave secreta). */
+  reminderData(): Promise<Pick<Snapshot, "patients" | "checkins">>;
+
   /** Datos del paciente con sesión; respetan los permisos por fila. */
   myPatient(userId: string): Promise<Patient | null>;
   myCheckins(userId: string): Promise<Checkin[]>;
