@@ -11,14 +11,15 @@ Actualizado: 24 de octubre de 2026.
 - Panel del equipo: resumen con HC1–HC8, lista diaria, lista de espera, pacientes, costos.
 - Portal del paciente con acceso por código, check-in semanal, orientación y gráfica.
 - Recordatorios por correo (días 1 y 5) con Vercel Cron.
-- 41 pruebas unitarias y 3 recorridos de punta a punta en celular emulado.
+- 42 pruebas unitarias y de permisos, y 6 recorridos de punta a punta (celular y escritorio).
 - Documentación: puesta en marcha, operación, métricas y contenido clínico.
+- Rediseño de UI/UX con sistema visual propio (docs/DISENO.md). Cuestionario y check-in van por pasos. Sin violaciones de accesibilidad (axe) en celular, tableta y escritorio, y recorridos e2e en celular y escritorio.
 
 ## Bloqueos
 
 | Bloqueo | Quién | Bloquea |
 |---|---|---|
-| Repositorio `5-silva/piloto-obesidad` en GitHub | Diego | Publicar en Vercel |
+| Acceso de Claude al repositorio `5-silva/piloto-obesidad` (ya creado) | Diego | Subir el código y publicar en Vercel |
 | Sesión iniciada en Vercel y Supabase en el navegador de la app | Diego | Configurar los servicios |
 | Dominio para «Lunes» | Equipo | Correos, aviso de privacidad, publicación |
 | Abogado sanitario y responsable del aviso con domicilio | Equipo | Abrir la lista de espera |

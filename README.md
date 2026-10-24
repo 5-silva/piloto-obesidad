@@ -20,13 +20,14 @@ npm install
 npm run dev          # http://localhost:3000, en modo demo
 ```
 
-Sin variables de Supabase la app corre en **modo demo**: datos ficticios en memoria y acceso con un clic en `/login`. Copia `.env.example` a `.env.local` para conectar servicios reales.
+Sin variables de Supabase la app corre en **modo demo**: datos ficticios en memoria y acceso con un clic en `/login` (o con cualquier correo y el código `123456`). Copia `.env.example` a `.env.local` para conectar servicios reales.
 
 ## Pruebas
 
 ```bash
 npm run check        # lint + tipos + pruebas unitarias y de permisos (RLS)
-npm run test:e2e     # recorrido completo en un celular emulado, en modo demo
+npm run test:e2e     # recorridos completos en celular y escritorio, en modo demo
+npm run format       # formato del código (Prettier con orden de clases de Tailwind)
 ```
 
 Las pruebas de permisos cargan la migración real en un Postgres embebido (PGlite) y comprueban que cada paciente vea solo lo suyo.
@@ -51,3 +52,4 @@ docs/               puesta en marcha, operación, métricas y contenido clínico
 - [docs/RUNBOOK.md](docs/RUNBOOK.md): operación diaria y qué hacer ante alertas o incidentes.
 - [docs/METRICAS.md](docs/METRICAS.md): cómo se calcula cada métrica y qué decide.
 - [docs/CONTENIDO-CLINICO.md](docs/CONTENIDO-CLINICO.md): textos que debe aprobar el médico responsable.
+- [docs/DISENO.md](docs/DISENO.md): dirección visual, sistema de componentes y auditoría de UX.
