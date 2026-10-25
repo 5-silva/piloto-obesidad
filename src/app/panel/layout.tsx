@@ -5,6 +5,7 @@ import { PanelNav } from "@/components/panel/nav";
 import { Wordmark } from "@/components/site-chrome";
 import { Icon } from "@/components/ui/icon";
 import { requireStaff } from "@/lib/auth";
+import { site } from "@/lib/config";
 import { getSnapshot } from "@/lib/data/snapshot";
 import { todayMx } from "@/lib/dates";
 import { todayTasks } from "@/lib/metrics";
@@ -20,7 +21,7 @@ export default async function PanelLayout({ children }: LayoutProps<"/panel">) {
     <div className="min-h-screen bg-niebla md:grid md:grid-cols-[15.5rem_1fr]">
       <aside className="sticky top-0 z-30 border-b border-linea bg-blanco px-3 pt-3 pb-2 md:h-screen md:border-r md:border-b-0 md:px-4 md:py-6">
         <div className="mb-3 flex items-center justify-between gap-2 px-1 md:mb-10 md:px-3">
-          <Link href="/panel" aria-label="Resumen del panel" className="rounded-md text-tinta no-underline">
+          <Link href="/panel" aria-label={`${site.brand}, resumen del panel`} className="rounded-md text-tinta no-underline">
             <Wordmark />
           </Link>
           <form action={logout} className="md:hidden">

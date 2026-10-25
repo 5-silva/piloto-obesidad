@@ -27,6 +27,7 @@ Sin variables de Supabase la app corre en **modo demo**: datos ficticios en memo
 ```bash
 npm run check        # lint + tipos + pruebas unitarias y de permisos (RLS)
 npm run test:e2e     # recorridos completos en celular y escritorio, en modo demo
+npm run test:a11y    # auditoría de accesibilidad con axe en celular, tableta y escritorio
 npm run format       # formato del código (Prettier con orden de clases de Tailwind)
 ```
 
@@ -53,3 +54,5 @@ docs/               puesta en marcha, operación, métricas y contenido clínico
 - [docs/METRICAS.md](docs/METRICAS.md): cómo se calcula cada métrica y qué decide.
 - [docs/CONTENIDO-CLINICO.md](docs/CONTENIDO-CLINICO.md): textos que debe aprobar el médico responsable.
 - [docs/DISENO.md](docs/DISENO.md): dirección visual, sistema de componentes y auditoría de UX.
+- [docs/cmo/BRIEF.md](docs/cmo/BRIEF.md): brief del agente CMO (marca, marketing y experimentos). Su definición está en `.claude/agents/cmo.md`.
+- [docs/research/](docs/research/): investigación de mercado, hallazgos de entrevistas y notas iniciales, anonimizados.

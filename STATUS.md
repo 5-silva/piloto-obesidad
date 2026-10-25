@@ -1,6 +1,6 @@
 # Estado del piloto
 
-Actualizado: 24 de octubre de 2026.
+Actualizado: 25 de octubre de 2026.
 
 ## Listo
 
@@ -14,6 +14,8 @@ Actualizado: 24 de octubre de 2026.
 - 42 pruebas unitarias y de permisos, y 6 recorridos de punta a punta (celular y escritorio).
 - Documentación: puesta en marcha, operación, métricas y contenido clínico.
 - Rediseño de UI/UX con sistema visual propio (docs/DISENO.md). Cuestionario y check-in van por pasos. Sin violaciones de accesibilidad (axe) en celular, tableta y escritorio, y recorridos e2e en celular y escritorio.
+- Auditoría de accesibilidad reproducible: `npm run test:a11y` revisa con axe las páginas públicas, el cuestionario, el portal y el panel en celular, tableta y escritorio.
+- Traspaso al agente CMO: brief en `docs/cmo/BRIEF.md`, investigación anonimizada en `docs/research/` y definición del agente en `.claude/agents/cmo.md`.
 
 ## Demo publicada
 
