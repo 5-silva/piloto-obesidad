@@ -41,18 +41,18 @@ export const mails = {
   waitlistConfirmation: (name: string, screeningUrl: string): Omit<Mail, "to"> => ({
     subject: `Estás en la lista de espera de ${site.brand}`,
     text:
-      `Hola, ${first(name)}:\n\nGracias por unirte. Somos un grupo pequeño de pacientes fundadores y te escribiremos por WhatsApp en los próximos días.\n\n` +
-      `Para avanzar más rápido, contesta el cuestionario de 5 minutos con el que el médico revisa si el programa es para ti:\n${screeningUrl}\n\n` +
+      `Hola, ${first(name)}:\n\nGracias por unirte. Abrimos un grupo pequeño de pacientes fundadores y te escribiremos por WhatsApp en los próximos días.\n\n` +
+      `Para avanzar más rápido, contesta el cuestionario de cinco minutos con el que el médico revisa si el programa es para ti:\n${screeningUrl}\n\n` +
       `Hoy no cobramos nada.` +
       signature,
   }),
   checkinReminder: (name: string, week: number, late: boolean): Omit<Mail, "to"> => ({
-    subject: late ? `Te falta tu check-in de la semana ${week}` : `Tu check-in de la semana ${week} está abierto`,
+    subject: late ? `Tu lunes ${week} sigue pendiente` : `Ya puedes registrar tu lunes ${week}`,
     text:
       `Hola, ${first(name)}:\n\n` +
       (late
-        ? `Aún no registramos tu check-in de esta semana. Toma 2 minutos y nos ayuda a acompañarte mejor.`
-        : `Empieza tu semana ${week}. Cuando puedas, registra tu peso y cómo te has sentido.`) +
+        ? `Tu lunes ${week} sigue sin registro. Son dos minutos y así sabemos cómo vas.`
+        : `Empieza tu lunes ${week}. Cuando puedas, registra tu peso y cómo te has sentido.`) +
       `\n\n${site.url}/portal` +
       signature,
   }),

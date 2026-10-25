@@ -52,7 +52,7 @@ export function SiteHeader({ nav = false, cta = true }: { nav?: boolean; cta?: b
         )}
         {cta && (
           <ButtonLink href="/#lista" size="sm" data-cta>
-            Apartar mi lugar
+            Pedir mi lugar
           </ButtonLink>
         )}
       </div>

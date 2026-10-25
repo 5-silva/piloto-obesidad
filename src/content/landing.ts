@@ -6,12 +6,12 @@
 export const hero = {
   kicker: "Plan fundador para 30 personas",
   title: "El lunes empiezas. Los once que siguen, te acompañamos.",
-  lead: "Seguimiento médico y nutricional para quienes usan o van a iniciar un medicamento para bajar de peso. Un check-in de dos minutos cada lunes y un equipo que lo revisa.",
-  cta: "Apartar mi lugar",
-  secondary: "Ver cómo funciona",
+  lead: "Seguimiento médico y nutricional para tu tratamiento con medicamento para bajar de peso, desde antes de empezar. Cada lunes, un check-in de dos minutos que revisa el equipo.",
+  cta: "Pedir mi lugar",
+  secondary: "Cómo funciona",
   trust: [
     { icon: "stethoscope", text: "Médicos con cédula profesional" },
-    { icon: "lock", text: "Tus datos de salud, protegidos" },
+    { icon: "lock", text: "Tus datos de salud, solo para tu equipo" },
     { icon: "calendar", text: "Hoy no cobramos nada" },
   ],
 } as const;
@@ -20,9 +20,14 @@ export const hero = {
 export const evidence = {
   stats: [
     { value: "75%", label: "de los adultos en México vive con sobrepeso u obesidad.", source: 1 },
-    { value: "1 de 2", label: "personas que inician un medicamento para bajar de peso lo deja antes de un año.", source: 2 },
+    {
+      value: "1 de 2",
+      label:
+        "adultos sin diabetes que iniciaron un medicamento para bajar de peso lo dejó antes de un año, según un estudio nacional en Dinamarca.",
+      source: 2,
+    },
   ],
-  close: "No es falta de fuerza de voluntad. Empezar es lo fácil; {marca} existe para acompañarte en todo lo que sigue.",
+  close: "No es falta de fuerza de voluntad. Lo difícil no es el primer lunes, son los que siguen. Para esos existe {marca}.",
 };
 
 export const steps = [
@@ -32,15 +37,15 @@ export const steps = [
   },
   {
     title: "Te valora un médico",
-    body: "Por videollamada. Decide contigo si el tratamiento te conviene; si te receta, compras el medicamento en tu farmacia.",
+    body: "Por videollamada. Deciden juntos si el tratamiento te conviene. Si te receta, lo compras en la farmacia que elijas.",
   },
   {
     title: "Cada lunes nos cuentas cómo vas",
-    body: "Peso, síntomas y ánimo en dos minutos. El equipo lo revisa y te escribe si algo no está bien.",
+    body: "Peso, síntomas y ánimo, en dos minutos. El equipo lo revisa y te escribe si algo no va bien.",
   },
   {
-    title: "En el lunes 12 revisan resultados",
-    body: "Con datos de cada semana, no de memoria, decides con tu médico el siguiente paso.",
+    title: "En el lunes 12, decides con datos",
+    body: "Doce lunes de registros, no recuerdos. Con ellos eliges con tu médico el siguiente paso.",
   },
 ];
 
@@ -58,8 +63,8 @@ export const includes = [
   { lead: "Médico.", body: "Valoración inicial y revisiones por videollamada." },
   { lead: "Nutrióloga.", body: "Un plan de alimentación pensado para tu tratamiento." },
   { lead: "Check-in cada lunes.", body: "Dos minutos para registrar cómo vas; el equipo lo revisa." },
-  { lead: "WhatsApp.", body: "Resolvemos tus dudas en horario de oficina." },
-  { lead: "Fuerza.", body: "Una guía de ejercicios para cuidar tu músculo mientras bajas de peso." },
+  { lead: "WhatsApp.", body: "Una persona del equipo responde tus dudas en horario de oficina." },
+  { lead: "Fuerza.", body: "Una guía de ejercicios para cuidar tu músculo durante el tratamiento." },
 ];
 
 export const excludes = [
@@ -82,7 +87,7 @@ export const notForWho = [
 
 export const privacy = {
   title: "Tu información de salud es tuya",
-  lead: "Pedimos solo lo necesario para acompañarte, y lo cuidamos como lo haría tu médico.",
+  lead: "Pedimos solo lo necesario para acompañarte. Nada más.",
   points: [
     { icon: "lock", title: "Acceso restringido", body: "Solo tú y el equipo que te atiende ven tus datos de salud." },
     { icon: "shield", title: "Sin anunciantes", body: "No compartimos tus datos con anunciantes, farmacias ni laboratorios." },
@@ -103,7 +108,7 @@ export const faq = [
   },
   {
     q: "¿Cuánto cuesta?",
-    a: "El plan fundador cuesta {precio} al mes y no incluye el medicamento. Hoy no cobramos nada: solo apartas tu lugar.",
+    a: "El plan fundador cuesta {precio} al mes y no incluye el medicamento. Hoy no cobramos nada: solo pides tu lugar.",
   },
   {
     q: "¿Por qué hay lista de espera?",
@@ -126,5 +131,5 @@ export const faq = [
 export const doctors = {
   title: "¿Eres médico?",
   body: "Si tus pacientes usan un medicamento para el peso y necesitan seguimiento entre consultas, podemos acompañarlos. Tú sigues a cargo del tratamiento y recibes un resumen de su avance.",
-  cta: "Escribirnos",
+  cta: "Hablar con el equipo",
 };

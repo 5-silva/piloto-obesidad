@@ -43,7 +43,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
         )}
         <p className="mt-10 flex items-start gap-2 text-sm text-piedra">
           <Icon name="lock" className="mt-0.5 h-4 w-4" />
-          Tu acceso se activa después de tu valoración médica. Solo tú ves tu seguimiento.
+          Tu acceso se activa después de tu valoración médica. Solo tú y tu equipo ven tu seguimiento.
         </p>
       </main>
       <SiteFooter />

@@ -32,7 +32,7 @@ export function Hero() {
             </ButtonLink>
           </div>
           <p className="mt-5 text-sm text-piedra">
-            {formatMxn(site.priceMxn)} al mes cuando empiece tu plan. El medicamento no está incluido.
+            {formatMxn(site.priceMxn)} al mes, cuando empiece tu plan. No incluye el medicamento.
           </p>
           <ul className="mt-10 grid gap-3 border-t border-linea pt-6 sm:grid-cols-3 sm:gap-4">
             {hero.trust.map((t) => (
@@ -48,7 +48,7 @@ export function Hero() {
           <figcaption className="mb-5 flex items-end justify-between gap-4">
             <span>
               <span className="block text-lg font-semibold">Tus 12 lunes</span>
-              <span className="text-sm text-piedra">Un check-in cada lunes. Alguien lo revisa siempre.</span>
+              <span className="text-sm text-piedra">Un check-in cada lunes. El equipo revisa cada uno.</span>
             </span>
           </figcaption>
           <TwelveMondays animate />

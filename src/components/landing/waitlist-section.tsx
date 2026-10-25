@@ -10,10 +10,10 @@ export function WaitlistSection() {
       <div className="grid gap-10 lg:grid-cols-[1fr_1.25fr] lg:grid-rows-[auto_1fr] lg:gap-x-16 lg:gap-y-10">
         <div className="lg:col-start-1 lg:row-start-1 lg:pt-6">
           <h2 id="lista-titulo" className="text-2xl sm:text-3xl">
-            Aparta tu lugar
+            Pide tu lugar
           </h2>
           <p className="mt-4 max-w-[30rem] text-lg text-tinta-2">
-            Abrimos 30 lugares para pacientes fundadores. Apartarlo toma un minuto y no te compromete a nada.
+            Abrimos 30 lugares para pacientes fundadores. Pedirlo toma un minuto y no te compromete a nada.
           </p>
         </div>
         <Tile className="sm:p-9 lg:col-start-2 lg:row-span-2 lg:row-start-1">

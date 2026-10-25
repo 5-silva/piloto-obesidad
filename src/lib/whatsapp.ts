@@ -18,12 +18,12 @@ function firstName(name: string): string {
 export const templates = {
   firstContact: (name: string, screeningUrl: string) =>
     `Hola, ${firstName(name)}. Soy del equipo de ${site.brand}. Gracias por unirte a la lista de espera. ` +
-    `Para saber si el programa es para ti, contesta este cuestionario de 5 minutos: ${screeningUrl}`,
+    `Para saber si el programa es para ti, contesta este cuestionario de cinco minutos: ${screeningUrl}`,
   schedule: (name: string) =>
     `Hola, ${firstName(name)}. Revisamos tu cuestionario y el siguiente paso es una valoración por videollamada con el médico. ` +
     (site.calUrl ? `Elige tu horario aquí: ${site.calUrl}` : "¿Qué días y horarios te acomodan?"),
   checkinReminder: (name: string, week: number) =>
-    `Hola, ${firstName(name)}. Ya puedes registrar tu check-in de la semana ${week} en ${site.url}/portal. Toma 2 minutos.`,
+    `Hola, ${firstName(name)}. Ya puedes registrar tu lunes ${week} en ${site.url}/portal. Son dos minutos.`,
   followUpFlag: (name: string) =>
     `Hola, ${firstName(name)}. Vimos tu check-in y queremos saber cómo sigues. ¿Podemos llamarte hoy?`,
 };

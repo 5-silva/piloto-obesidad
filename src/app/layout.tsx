@@ -7,9 +7,9 @@ import { isDemo } from "@/lib/env";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.brand} · Acompañamiento para tu tratamiento de peso`, template: `%s · ${site.brand}` },
+  title: { default: `${site.brand} · Seguimiento médico para tu tratamiento de peso`, template: `%s · ${site.brand}` },
   description:
-    "Seguimiento médico y nutricional semana a semana para personas que usan o van a iniciar un medicamento para bajar de peso. 100% en línea, en todo México.",
+    "Seguimiento médico y nutricional para tu tratamiento con medicamento para bajar de peso. Un check-in cada lunes, revisado por el equipo. En línea, en todo México.",
   openGraph: { locale: "es_MX", type: "website", siteName: site.brand },
 };
 

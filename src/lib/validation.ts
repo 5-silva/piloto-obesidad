@@ -84,7 +84,7 @@ const attributionText = z
 const leadSchema = z.object({
   name: z.string().min(2, "Escribe tu nombre").max(80, "Usa máximo 80 caracteres"),
   email: z
-    .email("Revisa tu correo")
+    .email("Revisa que tu correo esté bien escrito")
     .max(120)
     .transform((v) => v.toLowerCase()),
   phone: z
@@ -93,7 +93,7 @@ const leadSchema = z.object({
     .refine((v): v is string => v !== null, "Escribe un celular de 10 dígitos"),
   state: z.enum(MX_STATES, "Elige tu estado"),
   glp1: z.enum(["actualmente", "por_iniciar", "no", "no_se"], "Elige una opción"),
-  consent: z.literal("on", "Necesitamos tu autorización para contactarte"),
+  consent: z.literal("on", "Marca la casilla para que podamos escribirte"),
   website: z.string().max(0).optional(), // trampa para bots: debe llegar vacío
   utmSource: attributionText,
   utmMedium: attributionText,
@@ -136,7 +136,7 @@ const screeningSchema = z.object({
   riskAnswers: z.array(z.enum(riskKeys)),
   medications: z.string().max(500, "Usa máximo 500 caracteres").nullable(),
   glp1: z.enum(["actualmente", "por_iniciar", "no", "no_se"], "Elige una opción"),
-  healthConsent: z.literal("on", "Sin tu consentimiento no podemos guardar tus datos de salud"),
+  healthConsent: z.literal("on", "Sin tu consentimiento no podemos guardar tus respuestas."),
 });
 
 export type ScreeningForm = z.infer<typeof screeningSchema>;
@@ -227,7 +227,7 @@ export function parseCostForm(fd: FormData): Parsed<CostForm> {
   return result.success ? { ok: true, data: result.data } : { ok: false, errors: toErrors(result.error) };
 }
 
-export const emailSchema = z.email("Revisa tu correo").transform((v) => v.trim().toLowerCase());
+export const emailSchema = z.email("Revisa que tu correo esté bien escrito").transform((v) => v.trim().toLowerCase());
 export const otpSchema = z.string().regex(/^\d{6}$/, "El código tiene 6 dígitos");
 export const tokenSchema = z.string().regex(/^[a-f0-9]{32,64}$/);
 export const uuidSchema = z.uuid();

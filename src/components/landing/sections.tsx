@@ -83,7 +83,7 @@ export function Plan() {
             <span className="text-[3.5rem] leading-none font-medium tracking-[-0.04em] tabular-nums">{price}</span>
             <span className="text-lg font-normal tracking-normal text-tinta-2">al mes</span>
           </h2>
-          <p className="mt-4 text-tinta-2">Sin permanencia: lo dejas cuando quieras. Hoy no cobramos, solo apartas tu lugar.</p>
+          <p className="mt-4 text-tinta-2">Sin permanencia: lo dejas cuando quieras. Hoy no cobramos: solo pides tu lugar.</p>
           <ul className="mt-8 grid gap-4 border-t border-linea pt-8">
             {includes.map((x) => (
               <li key={x.lead} className="flex gap-3">
@@ -95,7 +95,7 @@ export function Plan() {
             ))}
           </ul>
           <ButtonLink href="#lista" size="lg" className="mt-10" full data-cta>
-            Apartar mi lugar
+            Pedir mi lugar
           </ButtonLink>
         </Tile>
 
@@ -131,7 +131,7 @@ export function Audience() {
       <SectionHeading
         id="para-quien"
         title="¿Es para ti?"
-        lead="El cuestionario y el médico lo confirman. Esta es la idea general."
+        lead="Esta es la regla general. El cuestionario y el médico lo confirman."
       />
       <div className="mt-12 grid gap-6 md:grid-cols-2">
         <Tile tone="jade">

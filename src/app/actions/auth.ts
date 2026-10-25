@@ -16,7 +16,7 @@ export type LoginState =
 
 export async function requestCode(_prev: LoginState, formData: FormData): Promise<LoginState> {
   const email = emailSchema.safeParse(formData.get("email"));
-  if (!email.success) return { status: "error", step: "email", message: "Revisa tu correo." };
+  if (!email.success) return { status: "error", step: "email", message: "Revisa que tu correo esté bien escrito." };
   if (isDemo()) return { status: "code_sent", email: email.data };
   const db = await createUserClient();
   const { error } = await db.auth.signInWithOtp({ email: email.data, options: { shouldCreateUser: false } });
@@ -30,7 +30,7 @@ export async function requestCode(_prev: LoginState, formData: FormData): Promis
 export async function verifyCode(_prev: LoginState, formData: FormData): Promise<LoginState> {
   const email = emailSchema.safeParse(formData.get("email"));
   const token = otpSchema.safeParse(String(formData.get("token") ?? "").replace(/\s/g, ""));
-  if (!email.success) return { status: "error", step: "email", message: "Revisa tu correo." };
+  if (!email.success) return { status: "error", step: "email", message: "Revisa que tu correo esté bien escrito." };
   if (!token.success) return { status: "error", step: "code", email: email.data, message: "El código tiene 6 dígitos." };
   if (isDemo()) {
     // En la demo el código siempre es 123456; un correo que empieza con «equipo» entra al panel.

@@ -15,7 +15,7 @@ const GLP1_OPTIONS = [
   ["actualmente", "Sí, ya lo uso"],
   ["por_iniciar", "Lo voy a iniciar"],
   ["no", "No, pero me interesa"],
-  ["no_se", "No estoy seguro"],
+  ["no_se", "No lo sé"],
 ] as const;
 
 export function WaitlistForm() {
@@ -128,12 +128,12 @@ export function WaitlistForm() {
         </p>
       )}
       <div className="grid gap-3">
-        <Button type="submit" size="lg" full pending={pending} pendingLabel="Apartando tu lugar…">
-          Apartar mi lugar
+        <Button type="submit" size="lg" full pending={pending} pendingLabel="Enviando…">
+          Pedir mi lugar
         </Button>
         <p className="flex items-center justify-center gap-2 text-sm text-piedra">
           <Icon name="lock" className="h-4 w-4" />
-          Hoy no cobramos nada. Tus datos no se comparten.
+          Hoy no cobramos nada. No compartimos tus datos con anunciantes.
         </p>
       </div>
     </form>
@@ -147,7 +147,7 @@ function WaitlistSuccess({ firstName, screeningPath }: { firstName: string; scre
       <span className="flex h-12 w-12 items-center justify-center rounded-full bg-jade text-blanco">
         <Icon name="check" className="h-6 w-6" strokeWidth={2.6} />
       </span>
-      <h3 className="text-2xl">{firstName ? `Listo, ${firstName}.` : "Listo."} Tu lugar está apartado.</h3>
+      <h3 className="text-2xl">{firstName ? `Listo, ${firstName}.` : "Listo."} Ya estás en la lista.</h3>
       <p className="max-w-[32rem] text-tinta-2">
         Te escribiremos por WhatsApp en los próximos días. Si contestas ahora el cuestionario de cinco minutos, el médico puede
         revisar tu caso antes.

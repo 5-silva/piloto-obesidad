@@ -9,12 +9,18 @@ import { WeightChart } from "@/components/weight-chart";
 import { requirePatient } from "@/lib/auth";
 import { CRISIS_LINE, site } from "@/lib/config";
 import { getRepo } from "@/lib/data";
-import { PATIENT_STATUS_LABELS } from "@/lib/data/types";
-import { programWeek, todayMx } from "@/lib/dates";
+import type { PatientStatus } from "@/lib/data/types";
+import { formatDateMx, programWeek, todayMx } from "@/lib/dates";
 import { streak, weightSummary } from "@/lib/progress";
 import { teamWaLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = { title: "Mi seguimiento", robots: { index: false, follow: false } };
+
+const INACTIVE_STATUS: Record<Exclude<PatientStatus, "activo">, string> = {
+  pausa: "Tu programa está en pausa. Escríbenos cuando quieras retomarlo.",
+  baja: "Ya no estás en el programa. Tus registros siguen aquí.",
+  completado: "Completaste el programa. Tus registros siguen aquí.",
+};
 
 function signed(n: number) {
   return `${n > 0 ? "+" : n < 0 ? "−" : ""}${Math.abs(n).toFixed(1)}`;
@@ -58,9 +64,9 @@ export default async function PortalPage() {
   const points = checkins.filter((c) => c.weightKg !== null).map((c) => ({ week: c.week, weightKg: c.weightKg! }));
 
   const status = !active
-    ? `Tu programa está ${PATIENT_STATUS_LABELS[patient.status].toLowerCase()}.`
+    ? INACTIVE_STATUS[patient.status as Exclude<PatientStatus, "activo">]
     : !started
-      ? "Tu programa empieza pronto."
+      ? `Tu programa empieza el ${formatDateMx(patient.startDate)}.`
       : week <= 12
         ? `Vas en el lunes ${week} de 12.`
         : `Vas en el lunes ${week}. Terminaste los 12 lunes base y seguimos contigo.`;
@@ -87,7 +93,7 @@ export default async function PortalPage() {
             label="Cambio desde el inicio"
             value={summary?.change != null ? signed(summary.change) : "—"}
             unit={summary?.change != null ? "kg" : undefined}
-            detail={summary?.change != null ? `Desde el lunes ${summary.firstWeek}` : "Con dos registros"}
+            detail={summary?.change != null ? `Desde el lunes ${summary.firstWeek}` : "Aparece con tu segundo registro"}
           />
           <Stat
             label="Lunes seguidos"

@@ -16,13 +16,13 @@ const GLP1_OPTIONS = [
   ["actualmente", "Sí, ya lo uso"],
   ["por_iniciar", "Lo voy a iniciar"],
   ["no", "No"],
-  ["no_se", "No estoy seguro"],
+  ["no_se", "No lo sé"],
 ] as const;
 
 const NOT_ELIGIBLE_COPY: Record<string, (bmi: number) => string> = {
   menor_de_edad: () => "El programa es solo para personas de 18 años o más.",
   imc_bajo: (v) =>
-    `Con la estatura y el peso que nos diste, tu IMC es ${v}. Los tratamientos que acompañamos se indican a partir de un IMC de 27 con alguna enfermedad relacionada, o de 30.`,
+    `Con la estatura y el peso que nos diste, tu IMC es ${v}. Los tratamientos que acompañamos se indican con un IMC de 30 o más, o de 27 o más con una enfermedad relacionada.`,
   imc_sin_comorbilidad: (v) =>
     `Tu IMC es ${v}. Entre 27 y 29.9 el tratamiento se indica cuando también hay una enfermedad relacionada, como presión alta o prediabetes. Si tienes alguna y no la marcaste, escríbenos.`,
 };

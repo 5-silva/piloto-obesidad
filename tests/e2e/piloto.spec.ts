@@ -1,12 +1,12 @@
 import { expect, test } from "@playwright/test";
 
-test("una persona aparta su lugar y contesta el cuestionario por pasos", async ({ page }) => {
+test("una persona pide su lugar y contesta el cuestionario por pasos", async ({ page }) => {
   await page.goto("/?utm_source=instagram&utm_campaign=e2e");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("El lunes empiezas.");
 
-  const submit = page.getByRole("button", { name: "Apartar mi lugar" });
+  const submit = page.getByRole("button", { name: "Pedir mi lugar" });
   await submit.click();
-  await expect(page.getByText("Necesitamos tu autorización para contactarte")).toBeVisible();
+  await expect(page.getByText("Marca la casilla para que podamos escribirte")).toBeVisible();
 
   await page.getByLabel("Nombre").fill("Prueba Automática");
   await page.getByLabel("Celular con WhatsApp").fill("55 1234 5678");
@@ -15,7 +15,7 @@ test("una persona aparta su lugar y contesta el cuestionario por pasos", async (
   await page.getByLabel("Sí, ya lo uso").check();
   await page.getByRole("checkbox", { name: /Acepto el aviso de privacidad/ }).check();
   await submit.click();
-  await expect(page.getByText("Tu lugar está apartado")).toBeVisible();
+  await expect(page.getByText("Ya estás en la lista")).toBeVisible();
 
   await page.getByRole("link", { name: "Contestar el cuestionario" }).click();
   const next = page.getByRole("button", { name: "Siguiente" });
