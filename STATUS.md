@@ -15,11 +15,14 @@ Actualizado: 24 de octubre de 2026.
 - Documentación: puesta en marcha, operación, métricas y contenido clínico.
 - Rediseño de UI/UX con sistema visual propio (docs/DISENO.md). Cuestionario y check-in van por pasos. Sin violaciones de accesibilidad (axe) en celular, tableta y escritorio, y recorridos e2e en celular y escritorio.
 
+## Demo publicada
+
+https://lunes-piloto.vercel.app (Vercel, plan Hobby, `DEMO_MODE=true`). Usa datos ficticios en memoria: lo que se registre puede borrarse en cualquier momento. Para entrar: `/login` con cualquier correo y el código `123456`, o con los botones de demo.
+
 ## Bloqueos
 
 | Bloqueo | Quién | Bloquea |
 |---|---|---|
-| Acceso de Claude al repositorio `5-silva/piloto-obesidad` (ya creado) | Diego | Subir el código y publicar en Vercel |
 | Sesión iniciada en Vercel y Supabase en el navegador de la app | Diego | Configurar los servicios |
 | Dominio para «Lunes» | Equipo | Correos, aviso de privacidad, publicación |
 | Abogado sanitario y responsable del aviso con domicilio | Equipo | Abrir la lista de espera |
@@ -33,8 +36,7 @@ Actualizado: 24 de octubre de 2026.
 
 ## Siguientes pasos
 
-1. Conectar el repositorio y publicar la demo en Vercel.
-2. Crear el proyecto de Supabase, correr la migración y configurar el código por correo.
-3. Prueba real de punta a punta con una cuenta del equipo.
-4. Auditoría de privacidad con REA.
-5. Abrir la lista de espera cuando el aviso esté aprobado.
+1. Crear el proyecto de Supabase, correr la migración y configurar el código por correo.
+2. Prueba real de punta a punta con una cuenta del equipo.
+3. Auditoría de privacidad con REA sobre la demo publicada.
+4. Abrir la lista de espera cuando el aviso esté aprobado.
